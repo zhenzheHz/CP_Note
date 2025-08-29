@@ -1,5 +1,7 @@
 # Input / Output 
 
+---
+
 ## Stream 的概念
 > $Stream$ $(n.)$ 流動、流 : A continuous of things or people
 
