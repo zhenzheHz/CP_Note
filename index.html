@@ -5,6 +5,11 @@
   <title>競程講義</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
+  <!-- MathJax 支援公式 -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
 </head>
 <body>
   <div id="app">載入中...</div>
@@ -12,7 +17,8 @@
   <script>
     window.$docsify = {
       name: '競程講義',
-      loadSidebar: true
+      loadSidebar: true,
+      subMaxLevel: 2 // 側邊欄自動展開到第二層
     }
   </script>
 
