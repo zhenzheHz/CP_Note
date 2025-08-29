@@ -3,18 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>競程講義</title>
-<!--   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Vue.css 主題 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
-</head>
-<body>
-  <div id="app">載入中...</div>
+
+  <!-- Highlight.js 語法高亮 -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+
+  <!-- KaTeX 數學公式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.5/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.15.5/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-katex/dist/docsify-katex.min.js"></script>
 
   <script>
     window.$docsify = {
       name: '競程講義',
-      loadSidebar: true
+      loadSidebar: true,
+      subMaxLevel: 2,
+      katex: true
     }
   </script>
+</head>
+<body>
+  <div id="app">載入中...</div>
 
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
 </body>
