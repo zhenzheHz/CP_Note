@@ -13,6 +13,8 @@
 - ostream : 輸出流，輸出的內容會先進入輸出流，再流到其他地方
 - iostram : 雙向的，同時有 istream, ostream
 
+---
+
 ## 標準流
 ### 流向
 用 `<<` 和 `>>` 來表示往左或往右
@@ -40,6 +42,8 @@ double divide(){
 }
 ```
 
+---
+
 ## 緩衝區 (buffer)
 - 緩衝區：流都有緩衝區，資料會先暫時停在那裡，之後才會流走
 - cin 讀取到的資料會先儲存在緩衝區等你讀取
@@ -49,6 +53,8 @@ double divide(){
 cout << flush; // 手動輸出flush
 ```
 
+---
+
 ## 以 EOF 結束
 當題目告訴你以EOF(End of file)結束時，你就要使用
 ```cpp=
@@ -56,6 +62,8 @@ while(cin >> ...) {
     ...
 }
 ```
+
+---
 
 ## Stringstream
 - 一種 iostream，也就是說，可以流東西進去，也可以流東西出來(也可以想像成一個容器)
@@ -66,6 +74,9 @@ ss << 5 << ' ' << 7; // input > 5,7
 int tmp;
 ss >> tmp; // tmp = 5
 ```
+
+---
+
 ## Input/Output 優化
 ### $stdio$ 與 $iostream$
 - $stdio$ 用`scanf`和`printf`
