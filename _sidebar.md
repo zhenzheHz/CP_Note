@@ -1,6 +1,6 @@
 * [首頁](/)
 * 語法基礎
-  * [I/O優化](/Syntax/optimize.md)
+  * [輸入與輸出](/Syntax/optimize.md)
   * [前置處理器](/Syntax/pre_process.md)
   * [指標](/Syntax/pointer.md)
   * [Local Function](/Syntax/function.md) 
