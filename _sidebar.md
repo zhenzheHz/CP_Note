@@ -1,4 +1,3 @@
-* [首頁](/)
 * 語法基礎
   * [輸入與輸出](/Syntax/optimize.md)
   * [前置處理器](/Syntax/pre_process.md)
