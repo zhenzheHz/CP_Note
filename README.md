@@ -30,5 +30,5 @@ ICPC 賽制以 **團隊賽** 為主，通常每隊三人，在限定時間內共
 
 
 <div style="text-align: center;">
-*Powered by Zhenzhe*
+Powered by Zhenzhe
 </div>
