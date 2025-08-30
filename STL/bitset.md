@@ -81,5 +81,4 @@ int32_t main(){
 	}
 	cout << ans/3 << '\n';
 }
-
 ```
