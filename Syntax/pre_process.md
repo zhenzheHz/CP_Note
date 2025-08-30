@@ -43,7 +43,7 @@ int a = a+b*10;
 #define plus(a,b) (a+b)
 ```
 - 圖論常用
-```cpp=
+```cpp
 #define inRange(i,j) (i>=0&&i<row&&j>=0&&j<column)
 ```
 - ~~邪教~~
@@ -62,3 +62,4 @@ int32_t main(){
 ## 參考資料
 - [[C 語言] 程式設計教學：如何使用巨集 (macro) 或前置處理器 (Preprocessor)](https://opensourcedoc.com/c-programming/preprocessor/)
 - [WiwiHo的競程筆記](https://cp.wiwiho.me/preprocessor/)
+
