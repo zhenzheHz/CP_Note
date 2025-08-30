@@ -80,7 +80,7 @@ auto add = [&](int x,int y) -> int{
 ```
 ---
 
-## <functional> 使用格式
+## functional 用法
 來自 `<functional>` 中 `std::function` 的另一種寫法，~~感覺比較美觀~~
 跟前面的 `lambda` 寫法基本上差不多，看以下範例對比一下就好
 > 全域函式
@@ -122,5 +122,6 @@ sort(arr.begin(),arr.end(),[&](int a,int b) {
 ## Reference
 說起來這也算是比較花的寫法，比賽中能不用盡量不要用
 - 可以參考這篇 [OI Wiki - Lambda Function](https://oi-wiki.org/lang/lambda/)
+
 
 
