@@ -7,7 +7,7 @@
 
 ## 使用方式
 ### 標頭檔
-```cpp=
+```cpp
 #include <queue>
 #include <bits/stdc++.h>
 ```
@@ -238,6 +238,7 @@ struct min_pq{
 > }
 > ``` 
 > </details>
+
 
 
 
