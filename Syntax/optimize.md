@@ -80,33 +80,33 @@ ss >> tmp; // tmp = 5
 ---
 
 ## Input/Output 優化
-### $stdio$ 與 $iostream$
-- $stdio$ 用`scanf`和`printf`
+### stdio 與 iostream
+- $stdio$ 用 `scanf` 和 `printf`
 ```cpp
 int a;
 scanf("%d",&a);
 printf("%d",a);
 ```
-- $iostream$ 用`cin`和`cout`
-```cpp
+- iostream 用 `cin` 和 `cout`
+```cpp 
 int a;
 cin >> a;
 cout << a;
 ```
-### $stdio$比較快？
+### stdio比較快？
 
-- 前面說過，$cout$有緩衝區，不會直接輸出出去
-- **cin**會自動**flush**，**scanf**,**printf**則不會
-### 強制取消**flush**
+- 前面說過，cout 有緩衝區，不會直接輸出出去
+- **cin** 會自動 **flush**，**scanf**,**printf** 則不會
+### 強制取消 **flush**
 ```cpp
 cin.tie(0);
 ```
-### 換行的**flush**
-- 請避免使用**endl**，因為他其實不只是換行
+### 換行的 **flush**
+- 請避免使用 `endl`，因為他其實不只是換行
 ```cpp
 cout << flush << '\n';
 ```
-- 取消**flush**，用單純的換行就好
+- 取消 `flush`，用單純的換行就好
 ```cpp
 cout << '\n';
 ```
