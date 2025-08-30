@@ -4,20 +4,33 @@
   <meta charset="UTF-8" />
   <title>競程講義</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Docsify 官方 vue 主題 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" />
-  <!-- Prism 語法高亮 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.css" />
-  <!-- KaTeX CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
-  <!-- 側邊欄折疊效果 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" />
   
   <style>
     h1 {
       text-align: center;
     }
   </style>
+  
+  <!-- MathJax 配置 -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        extensions: ["AMSmath.js", "AMSsymbols.js"]
+      }
+    });
+    
+    // Docsify 頁面載入完成後重新渲染 MathJax
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+  </script>
 </head>
 <body>
   <div id="app">載入中...</div>
@@ -31,14 +44,27 @@
       sidebarCollapse: {
         collapse: false,
         clickable: true
-      }
+      },
+      plugins: [
+        function(hook, vm) {
+          hook.doneEach(function() {
+            // 每次頁面變化後重新渲染數學公式
+            if (typeof MathJax !== 'undefined') {
+              MathJax.Hub.Queue(["Typeset", MathJax.Hub, "app"]);
+            }
+          });
+        }
+      ]
     }
   </script>
   
-  <!-- Docsify 核心 -->
+  <!-- Docsify -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
   
-  <!-- Prism 支援語言 -->
+  <!-- MathJax -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML"></script>
+  
+  <!-- Prism 語法高亮 -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-clike.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-c.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-cpp.min.js"></script>
@@ -46,36 +72,7 @@
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
   
-  <!-- KaTeX 相關腳本 -->
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-  
-  <!-- 手動配置 KaTeX 渲染 -->
-  <script>
-    // 等待 Docsify 載入完成後再初始化 KaTeX
-    window.addEventListener('DOMContentLoaded', function() {
-      // 監聽 Docsify 的頁面變化
-      window.$docsify.plugins = [].concat(window.$docsify.plugins || [], [
-        function(hook, vm) {
-          hook.doneEach(function() {
-            // 每次頁面載入完成後渲染數學公式
-            renderMathInElement(document.body, {
-              delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '$', right: '$', display: false},
-                {left: '\\[', right: '\\]', display: true},
-                {left: '\\(', right: '\\)', display: false}
-              ],
-              throwOnError: false,
-              strict: false
-            });
-          });
-        }
-      ]);
-    });
-  </script>
-  
-  <!-- 側邊欄可折疊 -->
+  <!-- 側邊欄折疊 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
 </body>
 </html>
