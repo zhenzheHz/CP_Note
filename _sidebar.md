@@ -25,7 +25,7 @@
   * [遞迴](/Basic/Recursion.md)
   * [貪心演算法](/Basic/Greedy.md)
   * [排序演算法](/Basic/Sort.md)
-  * [前綴和與差分](/Basic/Preifx_sum.md)
+  * [前綴和與差分](/Basic/Prefix_sum.md)
   * [二分搜尋法](/Basic/Binary_search.md)
   * [倍增法](/Basic/Binay_lifting)
   * [構造](/Basic/Constructive.md)
