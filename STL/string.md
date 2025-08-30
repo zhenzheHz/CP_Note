@@ -1,7 +1,7 @@
 # 第二章、string
 ---
 
-## 何謂`string`
+## 何謂string
 `std::string` 是在 `<string>` 中的一個型態（並非 C 中的`<string.h>`）
 本質上其實是字元陣列，也就是`std::basic_string<char>`
 ```cpp
@@ -9,7 +9,7 @@ const *char[_size];
 ```
 ---
 
-## 為何使用`string`
+## 為何使用string
 1. `string` 能夠動態分配空間，所以可以直接用`std::cin`來輸入
 2. `string` 有 `+` 和 比較運算，也就是說可以用 `sort()` 使其照字典序排序
 ```cpp
