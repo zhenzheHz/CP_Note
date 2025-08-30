@@ -16,33 +16,19 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.5/dist/katex.min.css">
   <script src="https://cdn.jsdelivr.net/npm/katex@0.15.5/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-katex/dist/docsify-katex.min.js"></script>
-</head>
-<body>
-  <div id="app">載入中...</div>
 
   <script>
     window.$docsify = {
       name: '競程講義',
       loadSidebar: true,
       subMaxLevel: 2,
-      katex: true,
-
-      markdown: {
-        renderer: {
-          code: function (code, lang) {
-            if (window.hljs) {
-              return '<pre><code class="hljs ' + lang + '">' +
-                hljs.highlight(code, {language: lang}).value +
-                '</code></pre>';
-            }
-            return '<pre><code>' + code + '</code></pre>';
-          }
-        }
-      }
+      katex: true
     }
   </script>
+</head>
+<body>
+  <div id="app">載入中...</div>
 
-  <!-- Docsify 本體 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
 </body>
 </html>
