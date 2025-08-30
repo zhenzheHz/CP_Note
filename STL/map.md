@@ -56,8 +56,52 @@ map<int,int> mp;
 ---
 
 ## 練習題
-### [ZJ-a135,Language Detection](https://zerojudge.tw/ShowProblem?problemid=a135)
+> ### [ZJ-a135,Language Detection](https://zerojudge.tw/ShowProblem?problemid=a135)
+>
+> 難度：*Easy* $(0.5/10)$
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> using namespace std;
+> 
+> int main() {
+>     ios::sync_with_stdio(false);
+>     cin.tie(nullptr);
+> 
+>
+>     map<string, string> lang = {
+>         {"HELLO", "ENGLISH"},
+>         {"HOLA", "SPANISH"},
+>         {"HALLO", "GERMAN"},
+>         {"BONJOUR", "FRENCH"},
+>         {"CIAO", "ITALIAN"},
+>         {"ZDRAVSTVUJTE", "RUSSIAN"}
+>     };
+> 
+>     string s;
+>     int caseNum = 1;
+>     while (cin >> s) {
+>         if (s == "#") break;
+> 
+>         cout << "Case " << caseNum++ << ": ";
+>         if (lang.count(s)) {
+>             cout << lang[s];
+>         } else {
+>             cout << "UNKNOWN";
+>         }
+>         cout << "\n";
+>     }
+>     return 0;
+> }
+> ```
+> </details>
+
+
 ### [ZJ-b515,摩斯電碼-商競103](https://zerojudge.tw/ShowProblem?problemid=b515)
 ### [ZJ-e641,Soundex](https://zerojudge.tw/ShowProblem?problemid=e641)
 ### [ZJ-d267,Letter Frequency](https://zerojudge.tw/ShowProblem?problemid=d267)
+
 
