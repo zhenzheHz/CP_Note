@@ -59,7 +59,7 @@ int F(int n){
 ---
 
 ## 河內塔問題
-### 規則：[應該都知道才對](https://www.youtube.com/watch?v=lDZUP-S0_Zw)
+> 規則：[應該都知道才對](https://www.youtube.com/watch?v=lDZUP-S0_Zw)
 
 ### 最佳解決方法
 
@@ -75,6 +75,7 @@ int F(int n){
 > 3. **把冰箱關上**
 
 - 不要去管怎麼把大象放進去，你只管把他放進去就好
+
 > **思考的轉換**
 
 - 把遞迴操作當成<font color="#FF0000">**超級操作**</font>，不要管他怎麼做到（把大象塞進冰箱）
@@ -118,18 +119,18 @@ function HANOI(n,source,auxiliary,target):
 		MOVE_ONE_DISK(source,target)
 		HANOI(n-1,auxiliary,source,target)
 ```
+
 - 實作參考 Code
+
 ```cpp
 #include <iostream>
 using namespace std;
-
 void normal_MOVE(int disk,char start,char end){
 	//因為移完就不用處理了，所以其實普通操作就是輸出
     cout <<"Move ring "<<disk;
     cout <<" from "<<start<<" to "<< end;
     cout << "\n";
 }
-
 void super_MOVE(int n,char A,char B,char C){
     if(n == 1){
         normal_MOVE(n,A,C);
@@ -139,14 +140,12 @@ void super_MOVE(int n,char A,char B,char C){
     normal_MOVE(n,A,C);
     super_MOVE(n-1,B,A,C);
 }
-
 int main(){
     int n;
     while(cin>>n){
         super_MOVE(n,'A','B','C');
         cout << '\n';
     }
-
 ```
 
 ---
@@ -161,7 +160,6 @@ int main(){
 > ```cpp
 > #include <bits/stdc++.h>
 > using namespace std;
-> 
 > int f(int x){
 >     if(x == 1)return 1;
 >     if(x%2 == 0) return f(x/2);
@@ -185,13 +183,11 @@ int main(){
 > ```cpp
 > #include <iostream>
 > using namespace std;
-> 
 > void move(int ring,char start,char end){
 >     cout <<"Move ring "<<ring;
 >     cout <<" from "<<start<<" to "<< end;
 >     cout << "\n";
 > }
-> 
 > void s_move(int n,char A,char B,char C){
 >     //(層數,起始柱,中轉柱,終點柱)
 >     if(n == 1){
@@ -205,7 +201,6 @@ int main(){
 >     //把n-1移動到C
 >     s_move(n-1,B,A,C);
 > }
-> 
 > int main(){
 >     int n;
 >     while(cin>>n){
@@ -241,7 +236,6 @@ int main(){
 >         combination(layer+1);
 >     }
 > }
-> 
 > int main(){
 >     number[0]=-1;
 >     while(cin>>n>>m){
@@ -264,7 +258,6 @@ int main(){
 > ```cpp
 > #include <bits/stdc++.h>
 > using namespace std;
-> 
 > int input(){
 >     string a;cin>>a;
 >     if(a[0] == 'f'){
@@ -287,7 +280,6 @@ int main(){
 >         return stoi(a);
 >     }
 > }
-> 
 > int main(){
 >     cout << input();
 > }
@@ -311,7 +303,6 @@ int main(){
 > using namespace std;
 > #define int long long
 > int n,p[50005],k,prefix[50005],suffix[50005];
-> 
 > inline int cut(int left,int right,int times){
 >     if(right - left < 2)return 0;
 >     if(times >= k)return 0;
@@ -341,7 +332,6 @@ int main(){
 >     //return
 >     return p[ans] + cut(left,ans-1,times+1) + cut(ans+1,right,times+1);
 > }
-> 
 > signed main(){
 >     ios_base::sync_with_stdio(0);
 >     cin.tie(0);
@@ -363,3 +353,4 @@ int main(){
 - [三件套-2](https://www.youtube.com/watch?v=kEWQj2Hb8kc&t=469s)
 - [三件套-3](https://www.youtube.com/watch?v=e9fEQDQ_JpQ)
 - [遞迴只會費氏數列?](https://www.youtube.com/playlist?list=PLd95SS_-Um6-JqY3HlJZAdBScnR0INWxO)
+
