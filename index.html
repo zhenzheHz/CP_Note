@@ -8,13 +8,14 @@
   <!-- Docsify 官方 vue 主題 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" />
 
-  <!-- Prism 語法高亮 -->
+  <!-- Prism 語法高亮（主題樣式） -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.css" />
 
-  <!-- KaTeX -->
+  <!-- KaTeX（數學公式） -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-katex@2/dist/docsify-katex.min.js"></script>
+
+  <!-- 側邊欄折疊效果 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" />
 </head>
 <body>
   <div id="app">載入中...</div>
@@ -24,10 +25,10 @@
       name: '競程講義',
       loadSidebar: true,
       subMaxLevel: 2,
-      // sidebarCollapse 插件設定
-      sidebarCollapse: {
-        collapseList: true,  // 預設收起
-        collapseDepth: 1     // 收起層級：1 表示只收起第一層（語法基礎/演算法基礎）
+      katex: {
+        // 確保 KaTeX 啟用
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
       }
     }
   </script>
@@ -35,7 +36,7 @@
   <!-- Docsify 核心 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
 
-  <!-- Prism 語言組件 -->
+  <!-- Prism 語言組件（要什麼語言就加什麼） -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-clike.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-c.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-cpp.min.js"></script>
@@ -43,7 +44,11 @@
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
 
-  <!-- 🔑 側邊欄折疊插件 -->
+  <!-- KaTeX 插件（讓 Docsify 渲染數學公式） -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-katex@2/dist/docsify-katex.min.js"></script>
+
+  <!-- 側邊欄可折疊 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
 </body>
 </html>
