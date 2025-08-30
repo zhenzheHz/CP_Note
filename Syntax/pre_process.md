@@ -1,10 +1,12 @@
 # 前置處理器
+---
 ## 前置處理是什麼？
 - $C$++是一種編譯語言，需要編譯才能執行
 - 前置處理就是在編譯前的階段要做處理動作
 - `#`是前置處理的指令
 - 常用的就是`#include`,`#define`
-## $include$
+---
+## include
 - `#include`會打開後面那個東西打開然後複製貼上
 ```text
 This is content in file.txt
@@ -16,7 +18,8 @@ cout << #include "file.txt" << '\n';
 ```cpp
 #include <bits/stdc++.h>
 ```
-## #$define$
+---
+## define
 - `#define`會把程式碼中的字元替換掉（用來偷懶）
 - 僅僅只是替換，不會運算
 ```cpp
@@ -59,7 +62,9 @@ int32_t main(){
     //code...
 }
 ```
+---
 ## 參考資料
 - [[C 語言] 程式設計教學：如何使用巨集 (macro) 或前置處理器 (Preprocessor)](https://opensourcedoc.com/c-programming/preprocessor/)
 - [WiwiHo的競程筆記](https://cp.wiwiho.me/preprocessor/)
+
 
