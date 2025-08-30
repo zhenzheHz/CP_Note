@@ -27,7 +27,7 @@ cin >> input;
 ```
 
 ### 標準錯誤流 (cout)
-一個儲存輸出資料的地方，使用時從變數流到 oustream ，故為 outstream << variable
+一個儲存輸出資料的地方，使用時從變數流到 ostream ，故為 ostream << variable
 ```cpp
 cout << output;
 ```
