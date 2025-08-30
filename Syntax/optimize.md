@@ -3,7 +3,8 @@
 ---
 
 ## Stream 的概念
-> $Stream$ $(n.)$ 流動、流 : A continuous of things or people
+
+$Stream$ $(n.)$ 流動、流 : A continuous of things or people
 
 就如同他的名字一樣，一個 stream 會有流進來的地方、流出去的地方和流向
 
@@ -68,7 +69,7 @@ while(cin >> ...) {
 ## Stringstream
 - 一種 iostream，也就是說，可以流東西進去，也可以流東西出來(也可以想像成一個容器)
 - 與 cin 相同會以空格分段，且變數型態必為 string
-```cpp=
+```cpp
 stringstream ss;
 ss << 5 << ' ' << 7; // input > 5,7
 int tmp;
