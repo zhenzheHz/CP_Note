@@ -7,6 +7,11 @@
 --- 
 
 ## 映射的概念
+
+> 映射（英語：map，mapping）或稱射影、寫像，在數學及相關的領域經常等同於函數。基於此，部分映射就相當於部分函數，而完全映射相當於完全函數。在很多特定的數學領域中，這個術語用來描述具有與該領域相關聯的特定性質函數，例如，在拓撲學中的連續函數，線性代數中的線性變換等等。
+>
+> by Wiki
+
 將一組「鍵（key）」和「值（value）」配對起來。每個鍵對應一個值，通過鍵就能快速找到對應的值
 類似現實生活中的字典或對照表。使用映射時，可以方便地進行新增、查找或刪除操作
 而且映射通常會自動管理鍵的順序，使資料能有效率地存取。
@@ -55,3 +60,4 @@ map<int,int> mp;
 ### [ZJ-b515,摩斯電碼-商競103](https://zerojudge.tw/ShowProblem?problemid=b515)
 ### [ZJ-e641,Soundex](https://zerojudge.tw/ShowProblem?problemid=e641)
 ### [ZJ-d267,Letter Frequency](https://zerojudge.tw/ShowProblem?problemid=d267)
+
