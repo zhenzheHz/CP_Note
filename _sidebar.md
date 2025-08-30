@@ -7,3 +7,12 @@
 * 演算法基礎
   * [演算法簡介](/Basic/Introduction.md)
   * [時間複雜度](/Basic/Time_Complexity.md)
+  * [暴力枚舉](/Basic/Enumerate.md)
+  * [模擬](/Basic/Implement.md)
+  * [遞迴](/Basic/Recursion.md)
+  * [貪心演算法](/Basic/Greedy.md)
+  * [排序演算法](/Basic/Sort.md)
+  * [前綴和與差分](/Basic/Preifx_sum.md)
+  * [二分搜尋法](/Basic/Binary_search.md)
+  * [倍增法](/Basic/Binay_lifting)
+  * [構造](/Basic/Constructive.md)
