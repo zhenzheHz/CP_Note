@@ -1,4 +1,4 @@
-# 第二張、前置處理器
+# 第二章、前置處理器
 ---
 ## 前置處理是什麼？
 - $C$++是一種編譯語言，需要編譯才能執行
@@ -66,6 +66,7 @@ int32_t main(){
 ## 參考資料
 - [[C 語言] 程式設計教學：如何使用巨集 (macro) 或前置處理器 (Preprocessor)](https://opensourcedoc.com/c-programming/preprocessor/)
 - [WiwiHo的競程筆記](https://cp.wiwiho.me/preprocessor/)
+
 
 
 
