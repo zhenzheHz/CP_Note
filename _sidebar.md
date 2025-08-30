@@ -1,4 +1,4 @@
-* 語法基礎
+* 基礎語法
   * [輸入與輸出](/Syntax/optimize.md)
   * [前置處理器](/Syntax/pre_process.md)
   * [指標](/Syntax/pointer.md)
@@ -17,7 +17,7 @@
   * [bitset](/STL/bitset.md)
   * [演算法模板函數](/STL/algorithm.md)
 
-* 演算法基礎
+* 基礎演算法
   * [演算法簡介](/Basic/Introduction.md)
   * [時間複雜度](/Basic/Time_Complexity.md)
   * [暴力枚舉](/Basic/Enumerate.md)
