@@ -175,7 +175,7 @@ int main(){
 
 > ### [Zerojudge A227 - 河內塔](https://zerojudge.tw/ShowProblem?problemid=a227)
 >
-> 難度：*Easy* $(經典問題)$
+> 難度：*Classic* $(2/10)$
 >
 > <details>
 >   <summary> 參考解法 </summary>
@@ -354,5 +354,6 @@ int main(){
 - [三件套-2](https://www.youtube.com/watch?v=kEWQj2Hb8kc&t=469s)
 - [三件套-3](https://www.youtube.com/watch?v=e9fEQDQ_JpQ)
 - [遞迴只會費氏數列?](https://www.youtube.com/playlist?list=PLd95SS_-Um6-JqY3HlJZAdBScnR0INWxO)
+
 
 
