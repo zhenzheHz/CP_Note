@@ -46,13 +46,14 @@ cout << a << ' ' << b; // 2 3
 - 用 `->` 可以指定回傳類型
 - 結尾要分號
 
+- 簡單用法
 ```cpp
 auto say_hello = []() {
     cout << "hello, world.";
     return;
 };
 ```
-捕獲外部變數 x,y，並且是 captue by value
+- 捕獲外部變數 x,y，並且是 captue by value
 ```cpp
 int x,y;
 auto add = [x,y]() {
@@ -60,7 +61,7 @@ auto add = [x,y]() {
     return x+y;
 };
 ```
-捕獲外部變數 $x,y$，而 $x$ 要 `capture by reference`，而 $y$ 則是 `by value`
+- 捕獲外部變數 $x,y$，而 $x$ 要 `capture by reference`，而 $y$ 則是 `by value`
 ```cpp
 int x = 1,y = 2;
 auto add = [&x,y]() {
@@ -71,7 +72,7 @@ cout << x << '  ' << y; // 1 2
 cout << add(x,y); // 5
 cout << x << ' ' << y; // 2 2
 ```
-全局變量捕獲皆為 `by reference`（常用的寫法）
+- 全局變量捕獲皆為 `by reference`（常用的寫法）
 ```cpp
 auto add = [&](int x,int y) -> int{
     return x+y;
@@ -115,3 +116,4 @@ sort(arr.begin(),arr.end(),[&](int a,int b) {
     return a*a > b*b;
 })
 ```
+
