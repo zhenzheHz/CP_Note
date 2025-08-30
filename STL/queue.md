@@ -99,12 +99,11 @@ struct min_pq{
 ```
 ---
 ## 練習
-> ### [Zerojudge E447(queue練習)](https://zerojudge.tw/ShowProblem?problemid=e447)
+> ### [Zerojudge E447 - queue練習](https://zerojudge.tw/ShowProblem?problemid=e447)
 >
 > 難度：*Easy* $(1/10)$
 > <details>
-  <summary><font color="#00DB00">參考解法</font></summary>
-
+  <summary>參考解法</summary>
 
 ```cpp
 #include <bits/stdc++.h>
@@ -132,9 +131,14 @@ int main() {
 
 </details>
 
-### [e155 - Throwing cards away I](https://zerojudge.tw/ShowProblem?problemid=e155)
-:::spoiler <font color="#00DB00">***Accepted(100%)***</font>
-```cpp=
+> ### [Zerojudge E155 - Throwing cards away I](https://zerojudge.tw/ShowProblem?problemid=e155)
+>
+> 難度：*Easy* $(1.5/10)$
+
+<details>
+<summary> 參考解法 </summary>
+
+```cpp
 #include <bits/stdc++.h>
 using namespace std;
 int main(){
@@ -163,12 +167,18 @@ int main(){
     }    
 }
 ```
-:::
+ 
+</details>
 
-### [TIOJ - 核心字串](https://tioj.ck.tp.edu.tw/problems/1489)
-:::spoiler <font color="#00DB00">***Accepted(100%)***</font>
+
+> ### [TIOJ 1489 - 核心字串](https://tioj.ck.tp.edu.tw/problems/1489
+>
+> 難度：***Medium*** $(3/10)$
+
+<details>
+<summary> 參考解法 </summary>
+
 ```cpp=
-#pragma GCC optimize("O2")
 #include <bits/stdc++.h>
 #define int int64_t
 using namespace std;
@@ -228,4 +238,5 @@ int32_t main(){
 }
 
 ```
-:::
+ 
+</details>
