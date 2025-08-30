@@ -82,13 +82,13 @@ ss >> tmp; // tmp = 5
 
 ## Input/Output 優化
 ### stdio 與 iostream
-- $stdio$ 用 `scanf` 和 `printf`
+- `stdio` 用 `scanf` 和 `printf`
 ```cpp
 int a;
 scanf("%d",&a);
 printf("%d",a);
 ```
-- iostream 用 `cin` 和 `cout`
+- `iostream` 用 `cin` 和 `cout`
 ```cpp 
 int a;
 cin >> a;
