@@ -13,7 +13,7 @@
 ### 初始化
 - 定義時指定
 ```cpp
-pair<int,string> zz(17,"Zhenzhe);
+pair<int,string> zz(17,"Zhenzhe");
 ```
 - 定義後賦值
 ```cpp
