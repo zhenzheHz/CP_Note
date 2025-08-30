@@ -4,7 +4,7 @@
 
 ## Stream 的概念
 
-$Stream$ $(n.)$ 流動、流 : A continuous of things or people
+ $Stream$  $(n.)$ 流動、流 : A continuous of things or people
 
 就如同他的名字一樣，一個 stream 會有流進來的地方、流出去的地方和流向
 
