@@ -58,7 +58,7 @@ cout << *(&a);
 ```
 > `&` 和`*`是反運算
 
-## ==指標變數==
+## 指標變數
 ![pointer](https://hackmd.io/_uploads/HyDLbZMia.png)
 ### 如何宣告
 
@@ -121,3 +121,4 @@ pointer的位址: 0x7ffdcf303030
 * a的值: 999
 > 指標變數也是變數，所以有一個存放他的位址合情合理吧
 * pointer的位址: 0x7ffffd37d610
+
