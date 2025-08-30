@@ -1,6 +1,6 @@
 # 第十章、bitset
 ---
-> 嚴格來說 `bitset` 並不是 STL 的一種
+> 嚴格來說 `std::bitset` 並不是 STL 的一種
 
 ---
 
