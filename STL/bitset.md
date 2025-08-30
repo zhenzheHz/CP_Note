@@ -54,7 +54,7 @@ bitset(val);
 
 ## 應用
 - 有時候可以用一些奇怪的解法在極限邊緣壓過去，畢竟速度快 $32$ 倍
-> [例題 : Triangle](https://atcoder.jp/contests/abc258/tasks/abc258_g)
+> [例題 : Triangle(Atcoder ABC258 Problem G)](https://atcoder.jp/contests/abc258/tasks/abc258_g)
 > 
 > 作法：開 $N$ 個 `bitset` 暴力解
 ```cpp
