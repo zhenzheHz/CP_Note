@@ -8,10 +8,10 @@
   <!-- Docsify 官方 vue 主題 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" />
 
-  <!-- Prism 語法高亮（主題樣式） -->
+  <!-- Prism 語法高亮 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.css" />
 
-  <!-- KaTeX（數學公式） -->
+  <!-- KaTeX -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-katex@2/dist/docsify-katex.min.js"></script>
@@ -23,19 +23,27 @@
     window.$docsify = {
       name: '競程講義',
       loadSidebar: true,
-      subMaxLevel: 3,
+      subMaxLevel: 2,
+      // sidebarCollapse 插件設定
+      sidebarCollapse: {
+        collapseList: true,  // 預設收起
+        collapseDepth: 1     // 收起層級：1 表示只收起第一層（語法基礎/演算法基礎）
+      }
     }
   </script>
 
   <!-- Docsify 核心 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
 
-  <!-- Prism 語言組件：按需增減（C/C++/Python/Java/Bash 等） -->
+  <!-- Prism 語言組件 -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-clike.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-c.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-cpp.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+
+  <!-- 🔑 側邊欄折疊插件 -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
 </body>
 </html>
