@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>程式碼前綴添加工具</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+            line-height: 1.4;
+        }
+        .button-group {
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .copy-btn {
+            background: #28a745;
+        }
+        .copy-btn:hover {
+            background: #1e7e34;
+        }
+        .clear-btn {
+            background: #dc3545;
+        }
+        .clear-btn:hover {
+            background: #c82333;
+        }
+        .example {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #007bff;
+        }
+        .example h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 程式碼前綴添加工具</h1>
+        
+        <div class="example">
+            <h3>使用說明</h3>
+            <p>1. 在下方輸入框貼上你的程式碼</p>
+            <p>2. 設定要添加的前綴（預設是 "> "）</p>
+            <p>3. 點擊「添加前綴」按鈕</p>
+            <p>4. 複製結果到你的 markdown 文件中</p>
+        </div>
+        
+        <div class="input-group">
+            <label for="prefix">前綴字符（例如："> " 用於 quotation block）：</label>
+            <input type="text" id="prefix" value="> " placeholder="輸入前綴...">
+        </div>
+        
+        <div class="input-group">
+            <label for="input">原始程式碼：</label>
+            <textarea id="input" placeholder="在這裡貼上你的程式碼..."></textarea>
+        </div>
+        
+        <div class="button-group">
+            <button onclick="addPrefix()">✨ 添加前綴</button>
+            <button class="copy-btn" onclick="copyResult()">📋 複製結果</button>
+            <button class="clear-btn" onclick="clearAll()">🗑️ 清空</button>
+        </div>
+        
+        <div class="input-group">
+            <label for="output">處理後的程式碼：</label>
+            <textarea id="output" readonly placeholder="處理結果會顯示在這裡..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        function addPrefix() {
+            const prefix = document.getElementById('prefix').value;
+            const input = document.getElementById('input').value;
+            const output = document.getElementById('output');
+            
+            if (!input.trim()) {
+                alert('請先輸入程式碼！');
+                return;
+            }
+            
+            const lines = input.split('\n');
+            const prefixedLines = lines.map(line => prefix + line);
+            const result = prefixedLines.join('\n');
+            
+            output.value = result;
+            output.style.height = 'auto';
+            output.style.height = output.scrollHeight + 'px';
+        }
+        
+        function copyResult() {
+            const output = document.getElementById('output');
+            if (!output.value) {
+                alert('沒有內容可複製！請先添加前綴。');
+                return;
+            }
+            
+            output.select();
+            document.execCommand('copy');
+            
+            // 視覺反饋
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✅ 已複製！';
+            btn.style.background = '#20c997';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '#28a745';
+            }, 2000);
+        }
+        
+        function clearAll() {
+            document.getElementById('input').value = '';
+            document.getElementById('output').value = '';
+        }
+        
+        // 自動調整 textarea 高度
+        document.getElementById('input').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+    </script>
+</body>
+</html>
