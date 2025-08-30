@@ -100,9 +100,48 @@ map<int,int> mp;
 > </details>
 
 
-### [Zerojudge B515 - 摩斯電碼](https://zerojudge.tw/ShowProblem?problemid=b515)
-### [ZJ-e641,Soundex](https://zerojudge.tw/ShowProblem?problemid=e641)
-### [ZJ-d267,Letter Frequency](https://zerojudge.tw/ShowProblem?problemid=d267)
+> ### [Zerojudge B515 - 摩斯電碼](https://zerojudge.tw/ShowProblem?problemid=b515)
+>
+> 難度：*Easy* $(1/10)$
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> using namespace std;
+> 
+> int main() {
+>     ios::sync_with_stdio(false);
+>     cin.tie(nullptr);
+>     string morse_code[] = {
+>         ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..",
+>         ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.",
+>         "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."
+>     };
+>     map<string, char> morse;
+>     for (int i = 0; i < 26; i++) {
+>         morse[morse_code[i]] = 'A' + i;
+>     }
+>     int N;
+>     cin >> N;
+>     string line;
+>     getline(cin, line);
+>     while (N--) {
+>         getline(cin, line);
+>         istringstream ss(line);
+>         string code;
+>         while (ss >> code) {
+>             cout << morse[code];
+>         }
+>         cout << "\n";
+>     }
+>     return 0;
+> }
+> ```
+> </details>
+
+
 
 
 
