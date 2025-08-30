@@ -37,7 +37,7 @@ queue<int> q;
 * 從前面從後面都有的`queue`
     
 ### 標頭檔
-```cpp=1
+```cpp
 #include <deque>
 #include <bits/stdc++.h>
 ```
@@ -67,7 +67,7 @@ deque<int> dq;
 - 以 `int` 為例就是取值時會先以最大的優先(又稱 **最大堆**)
 - 也可以自定義優先順序(用 `struct`)
 ### 標頭檔
-```cpp=
+```cpp
 #include <queue>
 #include <bits/stdc++.h>
 ```
@@ -88,7 +88,7 @@ priority_queue<int> pq;
 ### 自訂義優先順序
 - 用 `sturct` 寫運算符號
 - 以下示範最小堆寫法（`top` 是最小的元素）
-```cpp=
+```cpp
 struct min_pq{
     int val;
     //就是把原本的'<'改成'>'
@@ -238,6 +238,7 @@ struct min_pq{
 > }
 > ``` 
 > </details>
+
 
 
 
