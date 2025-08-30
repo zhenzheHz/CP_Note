@@ -46,9 +46,8 @@ stack<int> stk;
 
 > ### [Zerojudge E924 - 括號配對](https://zerojudge.tw/ShowProblem?problemid=e924)
 >
-> 難度：*Easy* $(2/10)$
+> 難度：*Classic* $(2/10)$
 > 
-> 重要的經典題，**必須學會**
 > <details>
 >   <summary> 參考解法 </summary>
 > 把各種括號用 $0$ ~ $7$ 代替，同一種就差 $4$ 比較好實作
@@ -93,4 +92,5 @@ stack<int> stk;
 > }    
 > ```
 > </details>
+
 
