@@ -21,19 +21,19 @@
 
 ### 標準輸入流 (cin)
 一個儲存輸入資料的地方，使用時從 istream 流到變數，故為 istream >> variable
-```cpp=
+```cpp
 cin >> input;
 ```
 
 ### 標準錯誤流 (cout)
 一個儲存輸出資料的地方，使用時從變數流到 oustream ，故為 outstream << variable
-```cpp=
+```cpp
 cout << output;
 ```
 
 ### 標準錯誤流 (cerr)
 用來儲存錯誤訊息的地方，使用時會從 cerr 讀取錯誤訊息(同cout用法)
-```cpp=
+```cpp
 double divide(){
     if(b == 0) {
         cerr << "Error : Divide by zero!";
@@ -49,7 +49,7 @@ double divide(){
 - cin 讀取到的資料會先儲存在緩衝區等你讀取
 - cout 則是先儲存在緩衝區，等到flush才會真正輸出
 - cerr 不緩衝，因此會直接輸出
-```cpp=
+```cpp
 cout << flush; // 手動輸出flush
 ```
 
@@ -57,7 +57,7 @@ cout << flush; // 手動輸出flush
 
 ## 以 EOF 結束
 當題目告訴你以EOF(End of file)結束時，你就要使用
-```cpp=
+```cpp
 while(cin >> ...) {
     ...
 }
@@ -80,13 +80,13 @@ ss >> tmp; // tmp = 5
 ## Input/Output 優化
 ### $stdio$ 與 $iostream$
 - $stdio$ 用`scanf`和`printf`
-```cpp=
+```cpp
 int a;
 scanf("%d",&a);
 printf("%d",a);
 ```
 - $iostream$ 用`cin`和`cout`
-```cpp=
+```cpp
 int a;
 cin >> a;
 cout << a;
@@ -96,28 +96,28 @@ cout << a;
 - 前面說過，$cout$有緩衝區，不會直接輸出出去
 - **cin**會自動**flush**，**scanf**,**printf**則不會
 ### 強制取消**flush**
-```cpp=
+```cpp
 cin.tie(0);
 ```
 ### 換行的**flush**
 - 請避免使用**endl**，因為他其實不只是換行
-```cpp=
+```cpp
 cout << flush << '\n';
 ```
 - 取消**flush**，用單純的換行就好
-```cpp=
+```cpp
 cout << '\n';
 ```
-```cpp=
+```cpp
 #define endl '\n'
 ```
 ### 解除同步
 - 這兩種輸入輸出系統為了避免混用所造成的結果，會讓這兩個同步，但是我們基本上不會混用
-```cpp=
+```cpp
 ios_base::sync_with_stdio(false);
 ```
 ### 邪教
-```cpp=
+```cpp
 bool rit(auto& x) {
 	x = 0; char c = cin.rdbuf()->sbumpc(); bool neg = 0;
 	while (!isdigit(c)) {
