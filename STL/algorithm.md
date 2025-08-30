@@ -80,3 +80,29 @@ cout << str; // "EDCBA"
 | `binary_search(v.begin(), v.end(), x)` | 判斷容器中是否存在元素 $x$ | $O(\log n)$ | 只返回 true/false，不返回位置 |
 | `lower_bound(v.begin(), v.end(), x)` | 回傳第一個 $\geq x$ 的 iterator | $O(\log n)$ | 若不存在，返回 `end()` |
 | `upper_bound(v.begin(), v.end(), x)` | 回傳第一個 $> x$ 的 iterator | $O(\log n)$ | 若不存在，返回 `end()` |
+
+---
+
+## 全排列函數
+- `next_permutation(L,R)`：將目前的排列更改為 全排列中的下一個排列。如果目前的排列已經是全排列中的最後一個排列（元素完全由大到小排列），函數會回傳 `false`，並將排列更改為全排列中的第一個排列（元素完全由小到大排列；否則，函數回傳`true`
+- `prev_permutation(L,R)`：`next_permutation` 的反向操作
+> 經常搭配 `do while` 使用
+```cpp
+int N = 9, a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+do {
+  for (int i = 0; i < N; i++) cout << a[i] << " ";
+  cout << endl;
+} while (next_permutation(a, a + N));
+```
+
+> ### [Luogu P1706 - 全排列問題](https://www.luogu.com.cn/problem/P1706)
+>
+> 題目難度：*Easy* $(0/10)$
+
+---
+
+## 去重函數
+- `unique(L,R)`：去除相鄰的重複元素移動到容器結尾，回傳去重後結尾的 `iterator`
+- 舉例：$[1,1,1,2,2,3,4,4,5]\rightarrow [1,2,3,4,5,1,1,2,4]$ ，回傳的 `5` 的位置的迭代器
+- 基本上會用在 `離散化` 上
+
