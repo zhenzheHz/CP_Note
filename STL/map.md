@@ -56,7 +56,7 @@ map<int,int> mp;
 ---
 
 ## 練習題
-> ### [ZJ-a135,Language Detection](https://zerojudge.tw/ShowProblem?problemid=a135)
+> ### [Zerojudge A135 - Language Detection](https://zerojudge.tw/ShowProblem?problemid=a135)
 >
 > 難度：*Easy* $(0.5/10)$
 >
@@ -100,8 +100,9 @@ map<int,int> mp;
 > </details>
 
 
-### [ZJ-b515,摩斯電碼-商競103](https://zerojudge.tw/ShowProblem?problemid=b515)
+### [Zerojudge B515 - 摩斯電碼](https://zerojudge.tw/ShowProblem?problemid=b515)
 ### [ZJ-e641,Soundex](https://zerojudge.tw/ShowProblem?problemid=e641)
 ### [ZJ-d267,Letter Frequency](https://zerojudge.tw/ShowProblem?problemid=d267)
+
 
 
