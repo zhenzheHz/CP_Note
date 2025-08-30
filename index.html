@@ -8,10 +8,10 @@
   <!-- Docsify 官方 vue 主題 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" />
 
-  <!-- Prism 語法高亮（主題樣式） -->
+  <!-- Prism 語法高亮 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.css" />
 
-  <!-- KaTeX（數學公式） -->
+  <!-- KaTeX -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
 
   <!-- 側邊欄折疊效果 -->
@@ -25,18 +25,25 @@
       name: '競程講義',
       loadSidebar: true,
       subMaxLevel: 2,
+      loadNavbar: false,
+      // docsify-sidebar-collapse 配置
+      sidebarCollapse: {
+        // 預設是否全部展開
+        collapse: false,
+        // 點章節名也能展開/收起
+        clickable: true
+      },
       katex: {
-        // 確保 KaTeX 啟用
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']]
       }
     }
   </script>
 
-  <!-- Docsify 核心 -->
+  <!-- Docsify -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
 
-  <!-- Prism 語言組件（要什麼語言就加什麼） -->
+  <!-- Prism 支援語言 -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-clike.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-c.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-cpp.min.js"></script>
@@ -44,7 +51,7 @@
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
 
-  <!-- KaTeX 插件（讓 Docsify 渲染數學公式） -->
+  <!-- KaTeX 插件 -->
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-katex@2/dist/docsify-katex.min.js"></script>
 
