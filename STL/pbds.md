@@ -34,13 +34,13 @@ tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> 
 - `set` 有的他都有，主要是多了最下面兩個好用的功能
 | Method | Function | Time Complexity |
 |:------:|:---------|:----------------|
-| `insert(x)` | 插入元素 $$x$$ | $$O(\log n)$$ |
-| `erase(x)` | 刪除元素 $$x$$（若存在） | $$O(\log n)$$ |
-| `find(x)` | 查找元素 $$x$$，回傳 iterator | $$O(\log n)$$ |
-| `lower_bound(x)` | 回傳第一個 $$\geq x$$ 的 iterator | $$O(\log n)$$ |
-| `upper_bound(x)` | 回傳第一個 $$> x$$ 的 iterator | $$O(\log n)$$ |
-| `order_of_key(x)` | 回傳集合中小於 $$x$$ 的元素個數（排名功能） | $$O(\log n)$$ |
-| `find_by_order(k)` | 回傳集合中第 $$k$$ 小的元素（0-indexed） | $$O(\log n)$$ |
+| `insert(x)` | 插入元素 $x$ | $O(\log n)$ |
+| `erase(x)` | 刪除元素 $x$（若存在） | $O(\log n)$ |
+| `find(x)` | 查找元素 $x$，回傳 iterator | $O(\log n)$ |
+| `lower_bound(x)` | 回傳第一個 $\geq x$ 的 iterator | $O(\log n)$ |
+| `upper_bound(x)` | 回傳第一個 $> x$ 的 iterator | $O(\log n)$ |
+| `order_of_key(x)` | 回傳集合中小於 $x$ 的元素個數（排名功能） | $O(\log n)$ |
+| `find_by_order(k)` | 回傳集合中第 $k$ 小的元素（0-indexed） | $O(\log n)$ |
 
 ---
 
@@ -133,5 +133,6 @@ tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> 
 > }
 > ```
 > </details>
+
 
 
