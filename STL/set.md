@@ -64,6 +64,7 @@ for(auto it = s.begin(); it != s.end(); ) {
 > ### [Zerojudge F607 - 切割費用](https://zerojudge.tw/ShowProblem?problemid=f607)
 >
 > 難度：*Easy* $(2/10)$
+> 
 > <details>
 >   <summary> 參考解法 </summary>
 > ```cpp
@@ -98,6 +99,7 @@ for(auto it = s.begin(); it != s.end(); ) {
 > ### [Zerojudge D123 - B2-Sequence](https://zerojudge.tw/ShowProblem?problemid=d123)
 >
 > 難度：*Easy* $(2.5/10)$
+> 
 > <details>
 >   <summary> 參考解法 </summary>
 > ```cpp
@@ -152,6 +154,7 @@ for(auto it = s.begin(); it != s.end(); ) {
 > ### [Zerojudge D442 - Happy Number](https://zerojudge.tw/ShowProblem?problemid=d442)
 >
 > 難度：*Easy* $(2/10)$
+> 
 > <details>
 >   <summary> 參考解法 </summary>
 > ```cpp
@@ -186,4 +189,5 @@ for(auto it = s.begin(); it != s.end(); ) {
 > }
 > ```
 > </details>
+
 
