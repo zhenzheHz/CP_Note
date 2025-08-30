@@ -178,7 +178,7 @@ struct min_pq{
 > <details>
 > <summary> 參考解法 </summary>
 > 
-> ```cpp=
+> ```cpp
 > #include <bits/stdc++.h>
 > #define int int64_t
 > using namespace std;
@@ -237,3 +237,4 @@ struct min_pq{
 > }
 > ``` 
 > </details>
+
