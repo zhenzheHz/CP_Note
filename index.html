@@ -8,14 +8,14 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" />
   <!-- Prism 語法高亮 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.css" />
-  <!-- KaTeX -->
+  <!-- KaTeX CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
   <!-- 側邊欄折疊效果 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" />
   
   <style>
     h1 {
-      text-align: center; /* 置中對齊 */
+      text-align: center;
     }
   </style>
 </head>
@@ -28,11 +28,8 @@
       loadSidebar: true,
       subMaxLevel: 2,
       loadNavbar: false,
-      // docsify-sidebar-collapse 配置
       sidebarCollapse: {
-        // 預設是否全部展開
         collapse: false,
-        // 點章節名也能展開/收起
         clickable: true
       }
     }
@@ -49,9 +46,34 @@
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
   
-  <!-- KaTeX 插件 -->
+  <!-- KaTeX 相關腳本 -->
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-katex@latest/dist/docsify-katex.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  
+  <!-- 手動配置 KaTeX 渲染 -->
+  <script>
+    // 等待 Docsify 載入完成後再初始化 KaTeX
+    window.addEventListener('DOMContentLoaded', function() {
+      // 監聽 Docsify 的頁面變化
+      window.$docsify.plugins = [].concat(window.$docsify.plugins || [], [
+        function(hook, vm) {
+          hook.doneEach(function() {
+            // 每次頁面載入完成後渲染數學公式
+            renderMathInElement(document.body, {
+              delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '\\(', right: '\\)', display: false}
+              ],
+              throwOnError: false,
+              strict: false
+            });
+          });
+        }
+      ]);
+    });
+  </script>
   
   <!-- 側邊欄可折疊 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
