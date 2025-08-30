@@ -97,7 +97,7 @@ auto divide = [&](int x,int y) -> double {
     else return x / (double) y;
 }
 ```
-> Lambda by <functional>
+> Lambda by `functional`
 ```cpp
 function<double(int,int)> divide = [&](int x,int y) {
     if(y == 0) return -1;
@@ -122,6 +122,7 @@ sort(arr.begin(),arr.end(),[&](int a,int b) {
 ## Reference
 說起來這也算是比較花的寫法，比賽中能不用盡量不要用
 - 可以參考這篇 [OI Wiki - Lambda Function](https://oi-wiki.org/lang/lambda/)
+
 
 
 
