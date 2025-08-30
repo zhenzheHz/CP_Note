@@ -1,7 +1,9 @@
 # 第四章、vector
 ---
 > ***Translation by Cambridge***
+> 
 > vector (n)向量
+> 
 > something physical such as a force that hassize and direction
 
 ---
