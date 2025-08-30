@@ -29,3 +29,5 @@
   * [二分搜尋法](/Basic/Binary_search.md)
   * [倍增法](/Basic/Binay_lifting)
   * [構造](/Basic/Constructive.md)
+ 
+* [前綴詞輔助器](/prefix.html)
