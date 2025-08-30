@@ -77,7 +77,7 @@ cout << str; // "EDCBA"
 
 | Function | Functionality | Time Complexity | Notes |
 |:--------:|:-------------|:---------------|:-----|
-| `binary_search(v.begin(), v.end(), x)` | 判斷容器中是否存在元素 $x$ | $O(\log n)$ | 只返回 true/false，不返回位置 |
+| `binary_search(v.begin(), v.end(), x)` | 判斷是否存在元素 $x$ | $O(\log n)$ | 只返回 true/false，不返回位置 |
 | `lower_bound(v.begin(), v.end(), x)` | 回傳第一個 $\geq x$ 的 iterator | $O(\log n)$ | 若不存在，返回 `end()` |
 | `upper_bound(v.begin(), v.end(), x)` | 回傳第一個 $> x$ 的 iterator | $O(\log n)$ | 若不存在，返回 `end()` |
 
@@ -105,4 +105,5 @@ do {
 - `unique(L,R)`：去除相鄰的重複元素移動到容器結尾，回傳去重後結尾的 `iterator`
 - 舉例：$[1,1,1,2,2,3,4,4,5]\rightarrow [1,2,3,4,5,1,1,2,4]$ ，回傳的 `5` 的位置的迭代器
 - 基本上會用在 `離散化` 上
+
 
