@@ -52,6 +52,7 @@ stack<int> stk;
 > <details>
 >   <summary> 參考解法 </summary>
 > 把各種括號用 $0$ ~ $7$ 代替，同一種就差 $4$ 比較好實作
+> 
 > ```cpp
 > #include <iostream>
 > #include <vector>
@@ -92,3 +93,4 @@ stack<int> stk;
 > }    
 > ```
 > </details>
+
