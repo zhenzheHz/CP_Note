@@ -173,7 +173,7 @@ struct min_pq{
 
 > ### [TIOJ 1489 - 核心字串](https://tioj.ck.tp.edu.tw/problems/1489
 >
-> 難度：***Medium*** $(3/10)$
+> 難度：*Medium* $(3/10)$
 
 > <details>
 > <summary> 參考解法 </summary>
@@ -237,4 +237,5 @@ struct min_pq{
 > }
 > ``` 
 > </details>
+
 
