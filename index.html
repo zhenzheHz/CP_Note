@@ -1,35 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>競程講義</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Vue.css 主題 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
+  <!-- Docsify 官方 vue 主題 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" />
 
-  <!-- Highlight.js 語法高亮 -->
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <!-- Prism 語法高亮（主題樣式） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.css" />
 
-  <!-- KaTeX 數學公式 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.5/dist/katex.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.15.5/dist/katex.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-katex/dist/docsify-katex.min.js"></script>
+  <!-- KaTeX（數學公式） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-katex@2/dist/docsify-katex.min.js"></script>
+</head>
+<body>
+  <div id="app">載入中...</div>
 
   <script>
     window.$docsify = {
       name: '競程講義',
       loadSidebar: true,
-      subMaxLevel: 2,
-      katex: true,
-      loadNavbar: true
+      subMaxLevel: 3,
     }
   </script>
-</head>
-<body>
-  <div id="app">載入中...</div>
 
+  <!-- Docsify 核心 -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+
+  <!-- Prism 語言組件：按需增減（C/C++/Python/Java/Bash 等） -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-clike.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-c.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-cpp.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
 </body>
 </html>
