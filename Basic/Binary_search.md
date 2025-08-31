@@ -138,7 +138,7 @@ else cout << "Not in!";
 - 二分搜最重要的是他的延伸技巧 - **對答案二分搜**
 
 
-## ==練習題==
+## 練習題
 
 > ### [Zerojudge D732 - 二分搜尋法](https://zerojudge.tw/ShowProblem?problemid=d732)
 > 
@@ -305,4 +305,5 @@ else cout << "Not in!";
 > }
 > ```
 > </details>
+
 
