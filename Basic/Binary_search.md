@@ -20,20 +20,20 @@
 ### 如何取中間項
 - 一般來說（左＋右）除二就好
 
-```cpp=
+```cpp
 int mid = (left + right)/2;
 ```
 
 - 但是當 `left`,`right` 很大的時候，加起來可能就超過 `long long`範圍
 
-```cpp=
+```cpp
 int mid = left + (right - left)/2;
 ```
 
 ### 怎麼二分搜
 - 其實有很多種寫法，就是不同區間（以下示範$[L,R]$）
 
-```cpp=
+```cpp
 int BinarySearch(int arr[],int size,int target){
     //定義左右邊界
     int left = 0;
@@ -60,7 +60,7 @@ int BinarySearch(int arr[],int size,int target){
 ```
 
 ### 倍增法(Binary Lifting)
-```cpp=
+```cpp
 int JumpSearch(int arr[],int size,int target){
     //先檢查最左邊
     if(arr[0] >= target)return 0;
@@ -84,7 +84,7 @@ int JumpSearch(int arr[],int size,int target){
 
 > 歡迎參考以下影片：[二分查找为什么总是写错？](https://www.youtube.com/watch?v=JuDAqNyTG4g)
 
-```cpp=
+```cpp
 int Search(int arr,int size,int target){
     int left = -1,right = size;
     while(left+1 != right){
@@ -106,7 +106,7 @@ int Search(int arr,int size,int target){
 | `lower_bound(x)` | 第一個大於等於 $x$ 的元素的 $iterator$ |
 | `upper_bound(x)` |  第一個大於 $x$ 的元素的 $iterator$ |
 
-```cpp=
+```cpp
 int arr[8] = {1,5,3,7,8,3,5,2};
 //要先排序!!!
 sort(arr,arr+8);
@@ -121,7 +121,7 @@ else cout << "Not in!";
 
 - `vector` 也差不多
 
-```cpp=
+```cpp
 vector<int>v = {1,5,3,7,8,3,5,2};
 sort(v.begin(),v.end());
 int target = 4;
@@ -305,3 +305,4 @@ else cout << "Not in!";
 > }
 > ```
 > </details>
+
