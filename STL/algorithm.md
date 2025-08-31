@@ -81,6 +81,13 @@ cout << str; // "EDCBA"
 | `lower_bound(v.begin(), v.end(), x)` | 回傳第一個 $\geq x$ 的 iterator | $O(\log n)$ | 若不存在，返回 `end()` |
 | `upper_bound(v.begin(), v.end(), x)` | 回傳第一個 $> x$ 的 iterator | $O(\log n)$ | 若不存在，返回 `end()` |
 
+> `set` 和 `map` 都有自己的 `lower_bound()` 和 `upper_bound` 但是回傳的 iterator 就不支援互相加減的操作
+>
+> ```cpp
+> set<int> s = {1,2,3,4,5};
+> auto it = s.lower_bound(4);
+> ```
+
 ---
 
 ## 全排列函數
@@ -105,5 +112,6 @@ do {
 - `unique(L,R)`：去除相鄰的重複元素移動到容器結尾，回傳去重後結尾的 `iterator`
 - 舉例：$[1,1,1,2,2,3,4,4,5]\rightarrow [1,2,3,4,5,1,1,2,4]$ ，回傳的 `5` 的位置的迭代器
 - 基本上會用在 `離散化` 上
+
 
 
