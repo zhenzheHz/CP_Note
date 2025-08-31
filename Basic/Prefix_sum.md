@@ -147,7 +147,7 @@ $$\sum_{k=1}^{i} D_k = a_i$$
 > 
 > 難度：*Medium* $(5.5/10)$
 >
-> 先備知識：`BIT / 線段樹`, `dfs`
+> 先備知識：`BIT / 線段樹`, `dfs`, `ETT`
 > 
 > <details>
 >     <summary> 參考解法 </summary>
@@ -223,3 +223,4 @@ $$\sum_{k=1}^{i} D_k = a_i$$
 > }
 > ```
 > </details>
+
