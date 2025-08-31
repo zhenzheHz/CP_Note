@@ -142,3 +142,84 @@ $$\sum_{k=1}^{i} D_k = a_i$$
 > }
 > ```
 > </details>
+
+> ### [CSES 1138 - Path Queries](https://cses.fi/problemset/task/1138)
+> 
+> 難度：*Medium* $(5.5/10)$
+>
+> 先備知識：`BIT / 線段樹`, `dfs`
+> 
+> <details>
+>     <summary> 參考解法 </summary>
+> 
+> 解法一：前面提到的 **樹上差分**
+> 
+> 解法二：樹鏈剖分
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> static constexpr int N = 2e5+5;
+> vector<vector<int>> g(N);
+> vector<int> val(N),in(N),out(N),bit(N);
+> int n,q;
+> inline void update(int p,int v){
+>     while(p<=n){
+>         bit[p] += v;
+>         p += (p&-p);
+>     }
+> }
+> inline int get(int p){
+>     int ans = 0;
+>     while(p>0){
+>         ans += bit[p];
+>         p -= (p&-p);
+>     }
+>     return ans;
+> }
+> inline void dfs(int cur,int from){
+>     static int timer = 0;
+>     in[cur] = ++timer;
+>     for(int &nxt : g[cur]){
+>         if(nxt != from)
+>             dfs(nxt,cur);
+>     }
+>     out[cur] = timer;
+> }
+>  
+> int32_t main(){
+>     ios_base::sync_with_stdio(0);
+>     cin.tie(0), cout.tie(0);
+>  
+>     cin >> n >> q;
+>     for(int i=1;i<=n;i++){
+>         cin >> val[i];
+>     }
+>     for(int i=1;i<n;i++){
+>         int a,b;
+>         cin >> a >> b;
+>         g[a].push_back(b);
+>         g[b].push_back(a);
+>     }
+>     dfs(1,1);
+>     for(int i=1;i<=n;i++){
+>         update(in[i],val[i]);
+>         update(out[i]+1,-val[i]);
+>     }
+>     while(q--){
+>         int op,a,b;
+>         cin >> op;
+>         if(op == 1){
+>             cin >> a >> b;
+>             update(in[a],b - val[a]);
+>             update(out[a]+1,val[a] - b);
+>             val[a] = b;
+>         }else{
+>             cin >> a;
+>             cout << get(in[a]) << '\n';
+>         }
+>     }
+> }
+> ```
+> </details>
