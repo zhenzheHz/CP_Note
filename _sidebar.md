@@ -30,4 +30,3 @@
   * [倍增法](/Basic/Binay_lifting.md)
   * [構造](/Basic/Constructive.md)
  
-* [前綴詞輔助器](/prefix.html)
