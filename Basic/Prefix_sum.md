@@ -224,4 +224,35 @@ $$\sum_{k=1}^{i} D_k = a_i$$
 > ```
 > </details>
 
+> ### [CSES 1650 - Range Xor Queries](https://cses.fi/problemset/task/1650)
+>
+> 難度：*Easy* $(3/10)$
+>
+> <details>
+>     <summary> 參考解法 </summary>
+> 
+> 前綴和不要拘束於 "和"
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> static constexpr int MAXN = 2e5+5;
+> int arr[MAXN], prefix[MAXN];
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     int n,q;
+>     cin >> n >> q;
+>     for(int i=1;i<=n;i++) cin >> arr[i];
+>     prefix[1] = arr[1];
+>     for(int i=2;i<=n;i++) prefix[i] = arr[i] ^ prefix[i-1];
+>     while(q--) {
+>         int l,r;
+>         cin >> l >> r;
+>         cout << (prefix[r] ^ prefix[l-1]) << '\n';
+>     }
+> }
+> ```
+> </details>
+
 
