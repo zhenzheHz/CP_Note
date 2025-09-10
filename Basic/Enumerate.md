@@ -153,7 +153,7 @@ for(int status = 0; status < (1<<n); status++) {
 > 
 > 題目位於 [Codeforces 上的題單](https://codeforces.com/contestInvitation/e60938670c2d65c4bb70f162d34e0f640dc900e8)中
 
-> ### [YTP 2024 能源危機](https://oj.ntucpc.org/problems/443)
+> ### [YTP 2024程式挑戰營Problem. 2 能源危機](https://oj.ntucpc.org/problems/443)
 >
 > 難度： $4.5/10$
 > 
@@ -204,4 +204,5 @@ for(int status = 0; status < (1<<n); status++) {
 > }
 > ```
 > </details>
+
 
