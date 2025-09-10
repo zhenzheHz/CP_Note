@@ -149,5 +149,59 @@ for(int status = 0; status < (1<<n); status++) {
 
 > ### [Bocchi's Setlist](https://codeforces.com/gym/634550/problem/A)
 >
+> 難度： $3.5/10$
+> 
 > 題目位於 [Codeforces 上的題單](https://codeforces.com/contestInvitation/e60938670c2d65c4bb70f162d34e0f640dc900e8)中
+
+> ### [YTP 2024 能源危機](https://oj.ntucpc.org/problems/443)
+>
+> 難度： $4.5/10$
+> 
+> <details>
+>     <summary> 參考解法 </summary>
+> 
+> 作法：枚舉操作三合併前的兩個子集合，並枚舉所有可能乘法情況
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> int popcnt(int x) {
+>     int ret = 0;
+>     while(x) {
+>         ret += x & 1;
+>         x >>= 1;
+>     }
+>     return ret;
+> }
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     int n,k,x,y,z;
+>     cin >> n >> k >> x >> y >> z;
+>     vector<int> A(n),factors;
+>     for(int &i : A) cin >> i;
+>     for(int i = 1; i*i <= k; i++) {
+>         if(k % i == 0) factors.push_back(i);
+>     }
+>     int ans = LLONG_MAX;
+>     for(int s1 = 1; s1 < (1<<n); s1++) {
+>         for(int s2 = 1; s2 < (1<<n); s2++) {
+>             if(s1 & s2) continue;
+>             int a = 0, b = 0;
+>             for(int i = 0; i < n; i++) {
+>                 if((s1 >> i) & 1) a += A[i];
+>                 if((s2 >> i) & 1) b += A[i];
+>             }
+>             for(auto factor : factors) {
+>                 int cost = z * (popcnt(s1) - 1 + popcnt(s2) - 1);
+>                 cost += (a > factor ? y : x) * llabs(a - factor);
+>                 cost += (k/factor > b ? x : y) * llabs((int)k/factor - b);
+>                 ans = min(ans,cost);
+>             }
+>         }
+>     }
+>     return cout<<ans,0;
+> }
+> ```
+> </details>
 
