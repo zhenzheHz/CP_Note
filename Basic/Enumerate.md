@@ -298,5 +298,60 @@ do {
 > </details>
 
 
+> ### [UVA 10098 - Generating Fast, Sorted Permutation](https://zerojudge.tw/ShowProblem?problemid=d436)
+>
+> 難度： $3/10$
+>
+> <details>
+>     <summary> 參考解法 </summary>
+> 
+> ```cpp
+> // Author : Zhenzhe
+> // Time : 2024 / 11 / 07
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     int test;string str;
+>     cin >> test;
+>     while(test--) {
+>         cin >> str;
+>         sort(str.begin(),str.end());
+>         do {
+>             cout << str << '\n';
+>         } while(next_permutation(str.begin(),str.end()));
+>         cout << '\n';
+>     }
+> }
+> ```
+> </details>
 
-
+> ### [UVA 10344 - https://zerojudge.tw/ShowProblem?problemid=d762](https://zerojudge.tw/ShowProblem?problemid=d762)
+>
+> 難度： $3/10$
+>
+> <details>
+>     <summary> 參考解法 </summary>
+> 
+> ```cpp
+> // Author : Zhenzhe
+> // Time : 2024 / 11 / 07
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     int test;string str;
+>     cin >> test;
+>     while(test--) {
+>         cin >> str;
+>         sort(str.begin(),str.end());
+>         do {
+>             cout << str << '\n';
+>         } while(next_permutation(str.begin(),str.end()));
+>         cout << '\n';
+>     }
+> }
+> ```
+> </details>
