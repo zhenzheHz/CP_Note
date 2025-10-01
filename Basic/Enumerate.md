@@ -331,6 +331,10 @@ do {
 >
 > 難度： $3/10$
 >
+> <details> 
+>     <summary> 參考解法 </summary>
+> 
+> ```cpp
 > // Author : Zhenzhe
 > // Time : 2024 / 11 / 02
 > // Problem : https://zerojudge.tw/ShowProblem?problemid=d762
@@ -361,4 +365,6 @@ do {
 >         else cout << "Impossible\n";
 >     }
 > }
+> ```
+> </details>
 
