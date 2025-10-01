@@ -145,6 +145,96 @@ for(int status = 0; status < (1<<n); status++) {
 ```
 
 ---
+
+## next_permutation() 枚舉排列
+
+排列（Permutation）指的是把一組元素依照不同的順序重新排好。例如：{1, 2, 3} 的所有排列有以下六種
+
+> 123,132,213,231,312,321
+
+`next_permutation()` 可以在字典序下生成下一個排列。
+
+如果目前排列是「字典序中某一個」，它會改變容器中的元素為下一個排列，並回傳 `true`。
+
+如果目前排列已經是「最大字典序」，它會將容器改回最小字典序，並回傳 `false`。
+
+`prev_permutation()` 則是反過來
+
+搭配 `do...while()` 可以枚舉子狀態的排列情況
+
+以八皇后問題為例：
+
+> ### [八皇后問題](https://zerojudge.tw/ShowProblem?problemid=i644)
+>
+> 有幾種放置方法使得在 $8\times 8$ 的西洋棋盤上，放置 $8$ 個皇后，使她們之間互不攻擊(皇后會攻擊 同一列、同一行、同一斜線)
+
+八皇后有三個「互不攻擊」的限制：
+
+- 同一行 不能有兩個皇后
+
+- 同一列 不能有兩個皇后
+
+- 同一斜線 不能有兩個皇后
+
+直觀思路會想：我是不是要在 $8\times 8$ 棋盤上做回溯，一種一種試？
+
+這樣就有 $64$ 格可選，可能性很多，計算量很大。
+
+但是我們可以 **觀察到**
+
+棋盤是 $8$ 行，我們必須放 $8$ 個皇后 $\rightarrow$ 每行必放 $1$ 個皇后。
+
+如果在第 $i$ 行放在第 $row[i]$ 列，就能把「每行」的限制自然滿足。
+
+這樣我們馬上消掉了第一個限制（每行唯一）。
+
+再來，同一列不能有兩個皇后 $\rightarrow$ 如果 $row$ 是一個排列，那每個數字 $1$ ~ $8$ 剛好出現一次，也就保證了每列唯一。
+
+因此我們可以用 `next_permutation()` 來完成此種枚舉，也就是檢查所有 $1$ ~ $8$ 的排列是否合法
+
+這樣一來我們只需要檢查斜角是否會攻擊到彼此就行
+
+棋盤上的斜線有一個特徵
+
+兩個點 $(i, row[i])$ 和 $(j, arr[j])$ 在同一斜線上 $\rightarrow$ $|i - j| == |arr[i] - arr[j]|$
+
+所以我們只要在排列中檢查這個條件即可
+
+當我們廣泛討論在 $n\times n$ 的棋盤上放置 $n$ 個皇后時
+
+檢查斜角合法性的複雜度為 $O(n)$
+
+枚舉所有排列情形複雜度為 $O(n!)$
+
+故複雜度為 $O(n\times n!)$
+
+```cpp
+int solutions = 0;
+do {
+    bool ok = true;
+    for (int i = 0; i < 8; i++) {
+        for (int j = i+1; j < 8; j++) {
+            if (abs(i - j) == abs(row[i] - row[j])) {
+                ok = false;
+                break;
+            }
+        }
+        if (!ok) break;
+    }
+    if (ok) {
+        solutions++;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                cout << (row[i] == j ? "Q " : ". ");
+            }
+            cout << "\n";
+        }
+        cout << "------------------\n";
+    }
+} while (next_permutation(row.begin(), row.end()));
+```
+
+---
 ## 練習
 
 > ### [Bocchi's Setlist](https://codeforces.com/gym/634550/problem/A)
@@ -204,5 +294,6 @@ for(int status = 0; status < (1<<n); status++) {
 > }
 > ```
 > </details>
+
 
 
