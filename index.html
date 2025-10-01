@@ -1,78 +1,588 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>競程講義</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" />
   
-  <style>
-    h1 {
-      text-align: center;
-    }
-  </style>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
-  <!-- MathJax 配置 -->
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        displayMath: [['$$','$$'], ['\\[','\\]']],
-        processEscapes: true,
-        processEnvironments: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      },
-      TeX: {
-        equationNumbers: { autoNumber: "AMS" },
-        extensions: ["AMSmath.js", "AMSsymbols.js"]
-      }
-    });
-    
-    // Docsify 頁面載入完成後重新渲染 MathJax
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-  </script>
-</head>
-<body>
-  <div id="app">載入中...</div>
-  
-  <script>
-    window.$docsify = {
-      name: '競程講義',
-      loadSidebar: true,
-      subMaxLevel: 2,
-      loadNavbar: false,
-      sidebarCollapse: {
-        collapse: false,
-        clickable: true
-      },
-      plugins: [
-        function(hook, vm) {
-          hook.doneEach(function() {
-            // 每次頁面變化後重新渲染數學公式
-            if (typeof MathJax !== 'undefined') {
-              MathJax.Hub.Queue(["Typeset", MathJax.Hub, "app"]);
-            }
-          });
-        }
-      ]
-    }
-  </script>
-  
-  <!-- Docsify -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  <!-- Marked.js for Markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   
   <!-- MathJax -->
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   
-  <!-- Prism 語法高亮 -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-clike.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-c.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-cpp.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <!-- Prism CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
   
-  <!-- 側邊欄折疊 -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #818cf8;
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-tertiary: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-right: auto;
+      cursor: pointer;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      margin-right: 1rem;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 70px;
+      bottom: 0;
+      width: 280px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      z-index: 100;
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+      background: var(--bg-tertiary);
+      border-radius: 3px;
+    }
+
+    .sidebar-content {
+      padding: 2rem 1rem;
+    }
+
+    .sidebar-content ul {
+      list-style: none;
+    }
+
+    .sidebar-content li {
+      margin: 0.25rem 0;
+    }
+
+    .sidebar-content a {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .sidebar-content a:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      transform: translateX(2px);
+    }
+
+    .sidebar-content a.active {
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--primary-light);
+      font-weight: 500;
+    }
+
+    .sidebar-content ul ul {
+      padding-left: 1rem;
+    }
+
+    .sidebar-content ul ul a {
+      font-size: 0.9rem;
+      padding: 0.6rem 1rem;
+    }
+
+    .sidebar-content > ul > li > strong,
+    .sidebar-content > ul > li > p {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin: 1.5rem 0 0.75rem;
+      padding: 0 1rem;
+      display: block;
+    }
+
+    /* Main Content */
+    .main {
+      margin-left: 280px;
+      margin-top: 70px;
+      padding: 3rem;
+      min-height: calc(100vh - 70px);
+      transition: margin-left 0.3s ease;
+    }
+
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .content h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+    }
+
+    .content h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 2.5rem 0 1.5rem;
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .content h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 2rem 0 1rem;
+      color: var(--text-primary);
+    }
+
+    .content h4 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 1.5rem 0 1rem;
+      color: var(--text-primary);
+    }
+
+    .content p {
+      margin-bottom: 1.5rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .content a {
+      color: var(--primary-light);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .content a:hover {
+      border-bottom-color: var(--primary-light);
+    }
+
+    .content code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-secondary);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: var(--primary-light);
+    }
+
+    .content pre {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 6px var(--shadow);
+    }
+
+    .content pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+
+    .content ul, .content ol {
+      margin: 1.5rem 0;
+      padding-left: 2rem;
+      color: var(--text-secondary);
+    }
+
+    .content li {
+      margin: 0.75rem 0;
+    }
+
+    .content blockquote {
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+      background: var(--bg-secondary);
+      border-radius: 0 8px 8px 0;
+      color: var(--text-secondary);
+    }
+
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .content th, .content td {
+      padding: 1rem;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+
+    .content th {
+      background: var(--bg-tertiary);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .content td {
+      color: var(--text-secondary);
+    }
+
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    /* Loading state */
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 400px;
+      color: var(--text-muted);
+    }
+
+    .error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      color: #fca5a5;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 2rem 1.5rem;
+      }
+
+      .header {
+        padding: 0 1rem;
+      }
+
+      .content h1 {
+        font-size: 2rem;
+      }
+
+      .content h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .content > * {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    /* MathJax styling */
+    mjx-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <button class="menu-toggle" id="menuToggle">☰</button>
+      <div class="logo" id="homeLink">🏆 競程講義</div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-content" id="sidebarContent">
+      <div class="loading">載入選單中...</div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main" id="main">
+    <div class="content" id="content">
+      <div class="loading">載入內容中...</div>
+    </div>
+  </main>
+
+  <!-- Prism JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+
+  <script>
+    // Configure marked
+    marked.setOptions({
+      highlight: function(code, lang) {
+        if (Prism.languages[lang]) {
+          return Prism.highlight(code, Prism.languages[lang], lang);
+        }
+        return code;
+      },
+      breaks: true,
+      gfm: true
+    });
+
+    // MathJax configuration
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      startup: {
+        pageReady: () => {
+          return MathJax.startup.defaultPageReady();
+        }
+      }
+    };
+
+    let currentPath = '';
+
+    // Load markdown file
+    async function loadMarkdown(path) {
+      try {
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(`無法載入 ${path}`);
+        const markdown = await response.text();
+        return markdown;
+      } catch (error) {
+        console.error('Error loading markdown:', error);
+        return null;
+      }
+    }
+
+    // Render content
+    async function renderContent(path) {
+      const contentEl = document.getElementById('content');
+      contentEl.innerHTML = '<div class="loading">載入內容中...</div>';
+      
+      const markdown = await loadMarkdown(path);
+      
+      if (markdown) {
+        contentEl.innerHTML = marked.parse(markdown);
+        
+        // Re-run Prism highlighting
+        Prism.highlightAllUnder(contentEl);
+        
+        // Re-typeset MathJax
+        if (window.MathJax) {
+          MathJax.typesetPromise([contentEl]).catch((err) => console.log('MathJax error:', err));
+        }
+        
+        // Scroll to top
+        window.scrollTo(0, 0);
+        
+        currentPath = path;
+      } else {
+        contentEl.innerHTML = `
+          <div class="error">
+            <h3>❌ 載入失敗</h3>
+            <p>無法載入檔案: ${path}</p>
+            <p>請確認檔案是否存在於正確的位置。</p>
+          </div>
+        `;
+      }
+    }
+
+    // Render sidebar
+    async function renderSidebar() {
+      const sidebarEl = document.getElementById('sidebarContent');
+      
+      const markdown = await loadMarkdown('_sidebar.md');
+      
+      if (markdown) {
+        sidebarEl.innerHTML = marked.parse(markdown);
+        
+        // Add click handlers to all links
+        const links = sidebarEl.querySelectorAll('a');
+        links.forEach(link => {
+          const href = link.getAttribute('href');
+          
+          // Skip external links
+          if (href && !href.startsWith('http')) {
+            link.addEventListener('click', (e) => {
+              e.preventDefault();
+              
+              // Update active state
+              links.forEach(l => l.classList.remove('active'));
+              link.classList.add('active');
+              
+              // Load content
+              renderContent(href);
+              
+              // Close mobile sidebar
+              if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+              }
+            });
+          }
+        });
+      } else {
+        sidebarEl.innerHTML = `
+          <div class="error">
+            <p>無法載入選單</p>
+            <p>請確認 _sidebar.md 檔案是否存在。</p>
+          </div>
+        `;
+      }
+    }
+
+    // Handle hash changes
+    function handleRouting() {
+      const hash = window.location.hash.slice(1) || 'README.md';
+      renderContent(hash);
+      
+      // Update active link
+      const links = document.querySelectorAll('#sidebarContent a');
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === hash || (hash === 'README.md' && href === '/')) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
+    // Initialize
+    async function init() {
+      await renderSidebar();
+      handleRouting();
+    }
+
+    // Mobile menu toggle
+    document.getElementById('menuToggle').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+
+    // Close sidebar when clicking main content on mobile
+    document.getElementById('main').addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+      }
+    });
+
+    // Home link
+    document.getElementById('homeLink').addEventListener('click', () => {
+      window.location.hash = 'README.md';
+    });
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleRouting);
+
+    // Start the app
+    init();
+  </script>
 </body>
 </html>
