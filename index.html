@@ -74,12 +74,20 @@
     .logo {
       font-size: 1.5rem;
       font-weight: 700;
-      background: var(--gradient);
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #ffd140 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       margin-right: auto;
       cursor: pointer;
+      animation: gradientShift 3s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .menu-toggle {
@@ -166,14 +174,49 @@
 
     .sidebar-content > ul > li > strong,
     .sidebar-content > ul > li > p {
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin: 1.5rem 0 0.75rem;
-      padding: 0 1rem;
-      display: block;
+      letter-spacing: 0.02em;
+      color: var(--text-primary);
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+      background: var(--bg-tertiary);
+      user-select: none;
+    }
+
+    .sidebar-content > ul > li > strong:hover,
+    .sidebar-content > ul > li > p:hover {
+      background: rgba(99, 102, 241, 0.2);
+      color: var(--primary-light);
+    }
+
+    .sidebar-content > ul > li > strong::after,
+    .sidebar-content > ul > li > p::after {
+      content: '›';
+      font-size: 1.3rem;
+      transition: transform 0.2s;
+      margin-left: auto;
+    }
+
+    .sidebar-content > ul > li > strong.expanded::after,
+    .sidebar-content > ul > li > p.expanded::after {
+      transform: rotate(90deg);
+    }
+
+    .sidebar-section {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .sidebar-section.expanded {
+      max-height: 1000px;
     }
 
     /* Main Content */
@@ -503,6 +546,30 @@
       
       if (markdown) {
         sidebarEl.innerHTML = marked.parse(markdown);
+        
+        // Add collapsible functionality to sections
+        const sections = sidebarEl.querySelectorAll('strong, p');
+        sections.forEach(section => {
+          // Find the next ul element (the submenu)
+          let nextElement = section.nextElementSibling;
+          while (nextElement && nextElement.tagName !== 'UL') {
+            nextElement = nextElement.nextElementSibling;
+          }
+          
+          if (nextElement && nextElement.tagName === 'UL') {
+            // Wrap the submenu in a collapsible div
+            const wrapper = document.createElement('div');
+            wrapper.className = 'sidebar-section';
+            nextElement.parentNode.insertBefore(wrapper, nextElement);
+            wrapper.appendChild(nextElement);
+            
+            // Add click handler to toggle
+            section.addEventListener('click', () => {
+              section.classList.toggle('expanded');
+              wrapper.classList.toggle('expanded');
+            });
+          }
+        });
         
         // Add click handlers to all links
         const links = sidebarEl.querySelectorAll('a');
