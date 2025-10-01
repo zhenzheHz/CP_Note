@@ -495,9 +495,22 @@
     // Load markdown file
     async function loadMarkdown(path) {
       try {
-        const response = await fetch(path);
-        if (!response.ok) throw new Error(`無法載入 ${path}`);
+        // 確保路徑格式正確
+        let filePath = path;
+        if (!filePath.startsWith('./') && !filePath.startsWith('/') && !filePath.startsWith('http')) {
+          filePath = './' + filePath;
+        }
+        
+        console.log('Loading:', filePath); // Debug log
+        const response = await fetch(filePath);
+        
+        if (!response.ok) {
+          console.error(`HTTP Error: ${response.status} for ${filePath}`);
+          throw new Error(`無法載入 ${filePath} (Status: ${response.status})`);
+        }
+        
         const markdown = await response.text();
+        console.log('Loaded successfully:', filePath); // Debug log
         return markdown;
       } catch (error) {
         console.error('Error loading markdown:', error);
@@ -542,7 +555,7 @@
     async function renderSidebar() {
       const sidebarEl = document.getElementById('sidebarContent');
       
-      const markdown = await loadMarkdown('_sidebar.md');
+      const markdown = await loadMarkdown('./_sidebar.md');
       
       if (markdown) {
         sidebarEl.innerHTML = marked.parse(markdown);
@@ -598,8 +611,9 @@
       } else {
         sidebarEl.innerHTML = `
           <div class="error">
-            <p>無法載入選單</p>
+            <p>❌ 無法載入選單</p>
             <p>請確認 _sidebar.md 檔案是否存在。</p>
+            <p>請使用本地伺服器開啟此頁面（不要用 file:// 直接開啟）</p>
           </div>
         `;
       }
@@ -607,14 +621,14 @@
 
     // Handle hash changes
     function handleRouting() {
-      const hash = window.location.hash.slice(1) || 'README.md';
+      const hash = window.location.hash.slice(1) || './README.md';
       renderContent(hash);
       
       // Update active link
       const links = document.querySelectorAll('#sidebarContent a');
       links.forEach(link => {
         const href = link.getAttribute('href');
-        if (href === hash || (hash === 'README.md' && href === '/')) {
+        if (href === hash || (hash === './README.md' && (href === '/' || href === 'README.md' || href === './README.md'))) {
           link.classList.add('active');
         } else {
           link.classList.remove('active');
@@ -642,7 +656,7 @@
 
     // Home link
     document.getElementById('homeLink').addEventListener('click', () => {
-      window.location.hash = 'README.md';
+      window.location.hash = './README.md';
     });
 
     // Listen for hash changes
