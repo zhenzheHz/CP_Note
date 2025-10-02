@@ -439,6 +439,37 @@
       overflow-x: auto;
       overflow-y: hidden;
     }
+
+    /* Enhanced code block styling */
+    .content pre[class*="language-"] {
+      position: relative;
+      background: var(--bg-secondary) !important;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 6px var(--shadow);
+    }
+
+    .content code[class*="language-"] {
+      background: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      color: inherit !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 0.9em !important;
+      line-height: 1.5 !important;
+    }
+
+    /* Ensure inline code maintains its styling */
+    .content p code:not([class*="language-"]),
+    .content li code:not([class*="language-"]) {
+      background: var(--bg-secondary) !important;
+      padding: 0.2rem 0.5rem !important;
+      border-radius: 4px !important;
+      color: var(--primary-light) !important;
+    }
   </style>
 </head>
 <body>
@@ -467,8 +498,26 @@
   <!-- Prism JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script>
-    // Wait for Prism to load before loading components
-    document.addEventListener('DOMContentLoaded', function() {
+    // Wait for Prism to be fully loaded and ready
+    function waitForPrism() {
+      return new Promise((resolve) => {
+        if (typeof Prism !== 'undefined' && Prism.languages) {
+          resolve();
+        } else {
+          const checkPrism = setInterval(() => {
+            if (typeof Prism !== 'undefined' && Prism.languages) {
+              clearInterval(checkPrism);
+              resolve();
+            }
+          }, 50);
+        }
+      });
+    }
+
+    // Load Prism components after main Prism is ready
+    async function loadPrismComponents() {
+      await waitForPrism();
+      
       const scripts = [
         'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js',
@@ -480,21 +529,34 @@
         return new Promise((resolve, reject) => {
           const script = document.createElement('script');
           script.src = src;
-          script.onload = resolve;
+          script.onload = () => {
+            console.log('Loaded:', src);
+            resolve();
+          };
           script.onerror = reject;
           document.head.appendChild(script);
         });
       }
       
-      // Load scripts sequentially
-      scripts.reduce((promise, script) => {
-        return promise.then(() => loadScript(script));
-      }, Promise.resolve()).then(() => {
-        console.log('All Prism components loaded successfully');
-      }).catch(error => {
-        console.error('Error loading Prism components:', error);
-      });
-    });
+      // Load scripts sequentially with delay
+      for (const scriptSrc of scripts) {
+        try {
+          await loadScript(scriptSrc);
+          // Small delay between loads to ensure proper initialization
+          await new Promise(resolve => setTimeout(resolve, 100));
+        } catch (error) {
+          console.error('Error loading script:', scriptSrc, error);
+        }
+      }
+      
+      console.log('All Prism components loaded successfully');
+      
+      // Trigger a custom event when all components are ready
+      window.dispatchEvent(new CustomEvent('prismReady'));
+    }
+
+    // Start loading when DOM is ready
+    document.addEventListener('DOMContentLoaded', loadPrismComponents);
   </script>
 
   <script>
@@ -521,10 +583,18 @@
       tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+        processHtmlClass: 'tex2jax_process',
+        ignoreHtmlClass: 'tex2jax_ignore'
       },
       startup: {
         pageReady: () => {
+          console.log('MathJax startup pageReady called');
           return MathJax.startup.defaultPageReady();
         }
       }
@@ -568,69 +638,106 @@
         // Re-run Prism highlighting for all code blocks
         function highlightCodeBlocks() {
           contentEl.querySelectorAll('pre code').forEach((block) => {
+            // Store original text content
+            const text = block.textContent;
+            
             // 檢測語言
             const classes = block.className.match(/language-(\w+)/);
             if (classes && classes[1]) {
               const lang = classes[1];
               if (Prism.languages && Prism.languages[lang]) {
-                block.innerHTML = Prism.highlight(block.textContent, Prism.languages[lang], lang);
+                try {
+                  block.innerHTML = Prism.highlight(text, Prism.languages[lang], lang);
+                  block.classList.add('language-' + lang);
+                } catch (e) {
+                  console.warn('Prism highlighting error for', lang, ':', e);
+                }
               }
             } else {
               // 如果沒有指定語言，嘗試 C++ 作為預設
               if (Prism.languages && Prism.languages.cpp) {
-                block.className = 'language-cpp';
-                block.innerHTML = Prism.highlight(block.textContent, Prism.languages.cpp, 'cpp');
+                try {
+                  block.className = 'language-cpp';
+                  block.innerHTML = Prism.highlight(text, Prism.languages.cpp, 'cpp');
+                } catch (e) {
+                  console.warn('Prism highlighting error for cpp:', e);
+                }
               }
             }
           });
         }
         
-        // Check if Prism is fully loaded
-        if (typeof Prism !== 'undefined' && Prism.languages) {
-          highlightCodeBlocks();
-        } else {
-          // Wait for Prism to load
-          const checkPrism = setInterval(() => {
+        // Wait for Prism components to be ready
+        function waitForPrismReady() {
+          return new Promise((resolve) => {
             if (typeof Prism !== 'undefined' && Prism.languages && Prism.languages.cpp) {
-              clearInterval(checkPrism);
-              highlightCodeBlocks();
+              resolve();
+            } else {
+              // Listen for custom prismReady event
+              window.addEventListener('prismReady', resolve, { once: true });
+              
+              // Fallback: check periodically
+              const checkPrism = setInterval(() => {
+                if (typeof Prism !== 'undefined' && Prism.languages && Prism.languages.cpp) {
+                  clearInterval(checkPrism);
+                  resolve();
+                }
+              }, 200);
+              
+              // Timeout after 10 seconds
+              setTimeout(() => {
+                clearInterval(checkPrism);
+                console.warn('Prism loading timeout');
+                resolve(); // Still resolve to continue
+              }, 10000);
             }
-          }, 100);
-          
-          // Timeout after 5 seconds
-          setTimeout(() => {
-            clearInterval(checkPrism);
-            console.warn('Prism loading timeout');
-          }, 5000);
+          });
         }
+        
+        // Apply syntax highlighting when Prism is ready
+        waitForPrismReady().then(() => {
+          highlightCodeBlocks();
+        });
         
         // Re-typeset MathJax
         function renderMath() {
           if (window.MathJax && window.MathJax.typesetPromise) {
-            MathJax.typesetPromise([contentEl]).catch((err) => {
-              console.log('MathJax error:', err);
+            console.log('Starting MathJax rendering...');
+            MathJax.typesetPromise([contentEl]).then(() => {
+              console.log('MathJax rendering completed');
+            }).catch((err) => {
+              console.error('MathJax error:', err);
             });
           }
         }
         
-        // Check if MathJax is loaded
-        if (window.MathJax && window.MathJax.typesetPromise) {
-          renderMath();
-        } else {
-          // Wait for MathJax to load
-          const checkMathJax = setInterval(() => {
+        // Wait for MathJax to be ready
+        function waitForMathJax() {
+          return new Promise((resolve) => {
             if (window.MathJax && window.MathJax.typesetPromise) {
-              clearInterval(checkMathJax);
-              renderMath();
+              resolve();
+            } else {
+              const checkMathJax = setInterval(() => {
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                  clearInterval(checkMathJax);
+                  resolve();
+                }
+              }, 100);
+              
+              // Timeout after 15 seconds
+              setTimeout(() => {
+                clearInterval(checkMathJax);
+                console.warn('MathJax loading timeout');
+                resolve(); // Still resolve to continue
+              }, 15000);
             }
-          }, 100);
-          
-          // Timeout after 10 seconds
-          setTimeout(() => {
-            clearInterval(checkMathJax);
-            console.warn('MathJax loading timeout');
-          }, 10000);
+          });
         }
+        
+        // Apply MathJax rendering when ready
+        waitForMathJax().then(() => {
+          renderMath();
+        });
         
         // Scroll to top
         window.scrollTo(0, 0);
