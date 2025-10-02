@@ -29,4 +29,12 @@
   * [二分搜尋法](/Basic/Binary_search.md)
   * [倍增法](/Basic/Binary_lifting.md)
   * [構造](/Basic/Constructive.md)
+
+* 延伸演算法技巧
+  * [對答案二分搜](/Extention/bsAns.md)
+  * [三分搜尋](/Extention/Ternary_Search.md)
+  * [折半枚舉](/Extention/Meet_In_Middle.md)
+  * [反悔貪心](/Extenttion/Greedy.md)
+  * [離散化](/Extention/des.md)
+  * [分而治之演算法](/Extention/DAC.md)
  
