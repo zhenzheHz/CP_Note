@@ -20,7 +20,7 @@
 
 ## 死線問題
 
-> ### [USACO 09 OPEN](https://zerojudge.tw/ShowProblem?problemid=a567)
+> ### [USACO 09 OPEN - Work Scheduling](https://zerojudge.tw/ShowProblem?problemid=a567)
 > 題目概述：有 $n$ 個工作，每個都有截止時間 $D_i$ 和完成利潤 $P_i$ ，求最多可獲得多少利潤（每個工作所花時間為 $1$）
 
 - 想法一
