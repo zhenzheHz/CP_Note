@@ -3,7 +3,7 @@
 ---
 
 ## 簡介
-STL 在 `<algorithm>`,`numeric`,`functional` 中提供了相當多的模板函數
+STL 在 `<algorithm>`,`<numeric>`,`<functional>` 中提供了相當多的模板函數
 
 因此在比賽中我們不需要再自己書寫常見的演算法
 
@@ -62,7 +62,8 @@ sort(vec.begin(),vec.end(),[&](int a,int b){
 
 > ### [TOI 2023 - A.房屋推薦](https://tioj.ck.tp.edu.tw/problems/2330)
 >
-> 難度：$3/10$
+> 難度： $3/10$
+> 
 > <details> 
 >     <summary> 參考解法 </summary>
 > 
@@ -162,6 +163,7 @@ do {
 - `unique(L,R)`：去除相鄰的重複元素移動到容器結尾，回傳去重後結尾的 `iterator`
 - 舉例：$[1,1,1,2,2,3,4,4,5]\rightarrow [1,2,3,4,5,1,1,2,4]$ ，回傳的 `5` 的位置的迭代器
 - 基本上會用在 `離散化` 上
+
 
 
 
