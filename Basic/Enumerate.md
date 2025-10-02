@@ -327,7 +327,7 @@ do {
 > ```
 > </details>
 
-> ### [UVA 10344 - https://zerojudge.tw/ShowProblem?problemid=d762](https://zerojudge.tw/ShowProblem?problemid=d762)
+> ### [UVA 10344 - 23 out of 5](https://zerojudge.tw/ShowProblem?problemid=d762)
 >
 > 難度： $3/10$
 >
@@ -367,4 +367,5 @@ do {
 > }
 > ```
 > </details>
+
 
