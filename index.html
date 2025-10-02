@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>競程講義</title>
+  <title>競程筆記</title>
   
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -328,6 +328,14 @@
       color: var(--text-secondary);
     }
 
+    .content blockquote > *:last-child {
+      margin-bottom: 0;
+    }
+
+    .content blockquote p:last-child {
+      margin-bottom: 0;
+    }
+
     .content table {
       width: 100%;
       border-collapse: collapse;
@@ -495,11 +503,8 @@
     // Load markdown file
     async function loadMarkdown(path) {
       try {
-        // 確保路徑格式正確
-        let filePath = path;
-        if (!filePath.startsWith('./') && !filePath.startsWith('/') && !filePath.startsWith('http')) {
-          filePath = './' + filePath;
-        }
+        // 移除開頭的 / 或 ./
+        let filePath = path.replace(/^\.?\//, '');
         
         console.log('Loading:', filePath); // Debug log
         const response = await fetch(filePath);
@@ -528,12 +533,29 @@
       if (markdown) {
         contentEl.innerHTML = marked.parse(markdown);
         
-        // Re-run Prism highlighting
-        Prism.highlightAllUnder(contentEl);
+        // Re-run Prism highlighting for all code blocks
+        contentEl.querySelectorAll('pre code').forEach((block) => {
+          // 檢測語言
+          const classes = block.className.match(/language-(\w+)/);
+          if (classes && classes[1]) {
+            const lang = classes[1];
+            if (Prism.languages[lang]) {
+              block.innerHTML = Prism.highlight(block.textContent, Prism.languages[lang], lang);
+            }
+          } else {
+            // 如果沒有指定語言，嘗試 C++ 作為預設
+            if (Prism.languages.cpp) {
+              block.className = 'language-cpp';
+              block.innerHTML = Prism.highlight(block.textContent, Prism.languages.cpp, 'cpp');
+            }
+          }
+        });
         
         // Re-typeset MathJax
-        if (window.MathJax) {
-          MathJax.typesetPromise([contentEl]).catch((err) => console.log('MathJax error:', err));
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          MathJax.typesetPromise([contentEl]).catch((err) => {
+            console.log('MathJax error:', err);
+          });
         }
         
         // Scroll to top
@@ -555,7 +577,7 @@
     async function renderSidebar() {
       const sidebarEl = document.getElementById('sidebarContent');
       
-      const markdown = await loadMarkdown('./_sidebar.md');
+      const markdown = await loadMarkdown('_sidebar.md');
       
       if (markdown) {
         sidebarEl.innerHTML = marked.parse(markdown);
@@ -598,8 +620,11 @@
               links.forEach(l => l.classList.remove('active'));
               link.classList.add('active');
               
+              // 移除 href 中的 ./ 前綴
+              const cleanHref = href.replace(/^\.?\//, '');
+              
               // Load content
-              renderContent(href);
+              window.location.hash = cleanHref;
               
               // Close mobile sidebar
               if (window.innerWidth <= 768) {
@@ -613,7 +638,6 @@
           <div class="error">
             <p>❌ 無法載入選單</p>
             <p>請確認 _sidebar.md 檔案是否存在。</p>
-            <p>請使用本地伺服器開啟此頁面（不要用 file:// 直接開啟）</p>
           </div>
         `;
       }
@@ -621,14 +645,17 @@
 
     // Handle hash changes
     function handleRouting() {
-      const hash = window.location.hash.slice(1) || './README.md';
+      const hash = window.location.hash.slice(1) || 'README.md';
       renderContent(hash);
       
       // Update active link
       const links = document.querySelectorAll('#sidebarContent a');
       links.forEach(link => {
         const href = link.getAttribute('href');
-        if (href === hash || (hash === './README.md' && (href === '/' || href === 'README.md' || href === './README.md'))) {
+        const cleanHref = href ? href.replace(/^\.?\//, '') : '';
+        const cleanHash = hash.replace(/^\.?\//, '');
+        
+        if (cleanHref === cleanHash || (cleanHash === 'README.md' && (href === '/' || cleanHref === '' || cleanHref === 'README.md'))) {
           link.classList.add('active');
         } else {
           link.classList.remove('active');
@@ -656,7 +683,7 @@
 
     // Home link
     document.getElementById('homeLink').addEventListener('click', () => {
-      window.location.hash = './README.md';
+      window.location.hash = 'README.md';
     });
 
     // Listen for hash changes
