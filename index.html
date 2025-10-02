@@ -1,696 +1,199 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>競程筆記</title>
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  
-  <!-- Marked.js for Markdown parsing -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  
-  <!-- MathJax -->
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  
-  <!-- Prism CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-  
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>競程筆記</title>
 
-    :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --primary-light: #818cf8;
-      --bg-primary: #0f172a;
-      --bg-secondary: #1e293b;
-      --bg-tertiary: #334155;
-      --text-primary: #f1f5f9;
-      --text-secondary: #cbd5e1;
-      --text-muted: #94a3b8;
-      --border: #334155;
-      --shadow: rgba(0, 0, 0, 0.3);
-      --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+<!-- Marked.js -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    /* Header */
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 70px;
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      padding: 0 2rem;
-    }
+<!-- Prism CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 
-    .header-content {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
+<!-- Prism JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
 
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #ffd140 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-right: auto;
-      cursor: pointer;
-      animation: gradientShift 3s ease infinite;
-      background-size: 200% 200%;
-    }
+<!-- MathJax -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  startup: {
+    typeset: false
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text-primary);
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0.5rem;
-      margin-right: 1rem;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      position: fixed;
-      left: 0;
-      top: 70px;
-      bottom: 0;
-      width: 280px;
-      background: var(--bg-secondary);
-      border-right: 1px solid var(--border);
-      overflow-y: auto;
-      transition: transform 0.3s ease;
-      z-index: 100;
-    }
-
-    .sidebar::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .sidebar::-webkit-scrollbar-track {
-      background: var(--bg-secondary);
-    }
-
-    .sidebar::-webkit-scrollbar-thumb {
-      background: var(--bg-tertiary);
-      border-radius: 3px;
-    }
-
-    .sidebar-content {
-      padding: 2rem 1rem;
-    }
-
-    .sidebar-content ul {
-      list-style: none;
-    }
-
-    .sidebar-content li {
-      margin: 0.25rem 0;
-    }
-
-    .sidebar-content a {
-      display: flex;
-      align-items: center;
-      padding: 0.75rem 1rem;
-      color: var(--text-secondary);
-      text-decoration: none;
-      border-radius: 8px;
-      transition: all 0.2s;
-      font-size: 0.95rem;
-    }
-
-    .sidebar-content a:hover {
-      background: var(--bg-tertiary);
-      color: var(--text-primary);
-      transform: translateX(2px);
-    }
-
-    .sidebar-content a.active {
-      background: rgba(99, 102, 241, 0.15);
-      color: var(--primary-light);
-      font-weight: 500;
-    }
-
-    .sidebar-content ul ul {
-      padding-left: 1rem;
-    }
-
-    .sidebar-content ul ul a {
-      font-size: 0.9rem;
-      padding: 0.6rem 1rem;
-    }
-
-    .sidebar-content > ul > li > strong,
-    .sidebar-content > ul > li > p {
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      color: var(--text-primary);
-      margin: 0.5rem 0;
-      padding: 0.75rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.2s;
-      background: var(--bg-tertiary);
-      user-select: none;
-    }
-
-    .sidebar-content > ul > li > strong:hover,
-    .sidebar-content > ul > li > p:hover {
-      background: rgba(99, 102, 241, 0.2);
-      color: var(--primary-light);
-    }
-
-    .sidebar-content > ul > li > strong::after,
-    .sidebar-content > ul > li > p::after {
-      content: '›';
-      font-size: 1.3rem;
-      transition: transform 0.2s;
-      margin-left: auto;
-    }
-
-    .sidebar-content > ul > li > strong.expanded::after,
-    .sidebar-content > ul > li > p.expanded::after {
-      transform: rotate(90deg);
-    }
-
-    .sidebar-section {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-    }
-
-    .sidebar-section.expanded {
-      max-height: 1000px;
-    }
-
-    /* Main Content */
-    .main {
-      margin-left: 280px;
-      margin-top: 70px;
-      padding: 3rem;
-      min-height: calc(100vh - 70px);
-      transition: margin-left 0.3s ease;
-    }
-
-    .content {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .content h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-align: center;
-    }
-
-    .content h2 {
-      font-size: 2rem;
-      font-weight: 600;
-      margin: 2.5rem 0 1.5rem;
-      color: var(--text-primary);
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 0.5rem;
-    }
-
-    .content h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin: 2rem 0 1rem;
-      color: var(--text-primary);
-    }
-
-    .content h4 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin: 1.5rem 0 1rem;
-      color: var(--text-primary);
-    }
-
-    .content p {
-      margin-bottom: 1.5rem;
-      color: var(--text-secondary);
-      line-height: 1.8;
-    }
-
-    .content a {
-      color: var(--primary-light);
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.2s;
-    }
-
-    .content a:hover {
-      border-bottom-color: var(--primary-light);
-    }
-
-    .content code {
-      font-family: 'JetBrains Mono', monospace;
-      background: var(--bg-secondary);
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.9em;
-      color: var(--primary-light);
-    }
-
-    .content pre {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      overflow-x: auto;
-      margin: 1.5rem 0;
-      box-shadow: 0 4px 6px var(--shadow);
-    }
-
-    .content pre code {
-      background: none;
-      padding: 0;
-      color: inherit;
-    }
-
-    .content ul, .content ol {
-      margin: 1.5rem 0;
-      padding-left: 2rem;
-      color: var(--text-secondary);
-    }
-
-    .content li {
-      margin: 0.75rem 0;
-    }
-
-    .content blockquote {
-      border-left: 4px solid var(--primary);
-      padding: 1rem 1.5rem;
-      margin: 1.5rem 0;
-      background: var(--bg-secondary);
-      border-radius: 0 8px 8px 0;
-      color: var(--text-secondary);
-    }
-
-    .content blockquote > *:last-child {
-      margin-bottom: 0;
-    }
-
-    .content blockquote p:last-child {
-      margin-bottom: 0;
-    }
-
-    .content table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1.5rem 0;
-      background: var(--bg-secondary);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .content th, .content td {
-      padding: 1rem;
-      border: 1px solid var(--border);
-      text-align: left;
-    }
-
-    .content th {
-      background: var(--bg-tertiary);
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .content td {
-      color: var(--text-secondary);
-    }
-
-    .content img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin: 1.5rem 0;
-    }
-
-    /* Loading state */
-    .loading {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 400px;
-      color: var(--text-muted);
-    }
-
-    .error {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin: 2rem 0;
-      color: #fca5a5;
-    }
-
-    /* Mobile Responsive */
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
-
-      .sidebar {
-        transform: translateX(-100%);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .main {
-        margin-left: 0;
-        padding: 2rem 1.5rem;
-      }
-
-      .header {
-        padding: 0 1rem;
-      }
-
-      .content h1 {
-        font-size: 2rem;
-      }
-
-      .content h2 {
-        font-size: 1.5rem;
-      }
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .content > * {
-      animation: fadeIn 0.5s ease-out;
-    }
-
-    /* MathJax styling */
-    mjx-container {
-      overflow-x: auto;
-      overflow-y: hidden;
-    }
-  </style>
+<style>
+/* --- CSS 簡化，保留主要樣式 --- */
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --primary:#6366f1; --primary-light:#818cf8; --bg-primary:#0f172a; --bg-secondary:#1e293b; --bg-tertiary:#334155; --text-primary:#f1f5f9; --text-secondary:#cbd5e1; --border:#334155;
+}
+body { font-family:'Inter',sans-serif; background:var(--bg-primary); color:var(--text-primary); line-height:1.6; overflow-x:hidden; }
+.header { position:fixed; top:0; left:0; right:0; height:70px; background:rgba(15,23,42,0.8); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 2rem; z-index:1000; }
+.logo { font-size:1.5rem; font-weight:700; background:linear-gradient(135deg,#f093fb 0%,#f5576c 50%,#ffd140 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; cursor:pointer; }
+.menu-toggle { display:none; background:none; border:none; color:var(--text-primary); font-size:1.5rem; cursor:pointer; padding:0.5rem; margin-right:1rem; }
+.sidebar { position:fixed; left:0; top:70px; bottom:0; width:280px; background:var(--bg-secondary); border-right:1px solid var(--border); overflow-y:auto; transition:transform 0.3s ease; z-index:100; }
+.sidebar.open { transform:translateX(0); }
+.sidebar-section { max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
+.sidebar-section.expanded { max-height:1000px; }
+.main { margin-left:280px; margin-top:70px; padding:3rem; min-height:calc(100vh-70px); transition:margin-left 0.3s ease; }
+.content { max-width:900px; margin:0 auto; }
+.content h1 { font-size:2.5rem; font-weight:700; margin-bottom:1.5rem; text-align:center; background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.content pre { background:var(--bg-secondary); border:1px solid var(--border); border-radius:12px; padding:1rem; overflow-x:auto; margin:1.5rem 0; }
+.content code { font-family:'JetBrains Mono', monospace; background:var(--bg-secondary); padding:0.2rem 0.5rem; border-radius:4px; font-size:0.9em; color:var(--primary-light); }
+@media(max-width:768px) { .menu-toggle { display:block; } .sidebar { transform:translateX(-100%); } .main { margin-left:0; padding:2rem 1.5rem; } }
+</style>
 </head>
+
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="header-content">
-      <button class="menu-toggle" id="menuToggle">☰</button>
-      <div class="logo" id="homeLink">🏆 競程講義</div>
-    </div>
-  </header>
+<header class="header">
+  <button class="menu-toggle" id="menuToggle">☰</button>
+  <div class="logo" id="homeLink">🏆 競程講義</div>
+</header>
 
-  <!-- Sidebar -->
-  <nav class="sidebar" id="sidebar">
-    <div class="sidebar-content" id="sidebarContent">
-      <div class="loading">載入選單中...</div>
-    </div>
-  </nav>
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-content" id="sidebarContent">
+    <div class="loading">載入選單中...</div>
+  </div>
+</nav>
 
-  <!-- Main Content -->
-  <main class="main" id="main">
-    <div class="content" id="content">
-      <div class="loading">載入內容中...</div>
-    </div>
-  </main>
+<main class="main" id="main">
+  <div class="content" id="content">
+    <div class="loading">載入內容中...</div>
+  </div>
+</main>
 
-  <!-- Prism JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+<script>
+// marked 設定
+marked.setOptions({
+  gfm: true,
+  breaks: true,
+  highlight: function(code, lang){
+    if(Prism.languages[lang]){
+      return Prism.highlight(code, Prism.languages[lang], lang);
+    }
+    return code;
+  }
+});
 
-  <script>
-    // Configure marked
-    marked.setOptions({
-      highlight: function(code, lang) {
-        if (Prism.languages[lang]) {
-          return Prism.highlight(code, Prism.languages[lang], lang);
-        }
-        return code;
-      },
-      breaks: true,
-      gfm: true
+let currentPath = '';
+
+// 載入 markdown
+async function loadMarkdown(path){
+  try{
+    let filePath = path.replace(/^\.?\//,'');
+    const res = await fetch(filePath);
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.text();
+  }catch(e){ console.error(e); return null; }
+}
+
+// 顯示內容
+async function renderContent(path){
+  const contentEl = document.getElementById('content');
+  contentEl.innerHTML = '<div class="loading">載入內容中...</div>';
+  const markdown = await loadMarkdown(path);
+  if(markdown){
+    contentEl.innerHTML = marked.parse(markdown);
+
+    // Prism 高亮
+    contentEl.querySelectorAll('pre code').forEach(block=>{
+      const lang = block.className.replace('language-','')||'cpp';
+      if(Prism.languages[lang]){
+        block.innerHTML = Prism.highlight(block.textContent, Prism.languages[lang], lang);
+        block.classList.add('language-'+lang);
+      }
     });
 
-    // MathJax configuration
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
-      },
-      startup: {
-        pageReady: () => {
-          return MathJax.startup.defaultPageReady();
-        }
-      }
-    };
-
-    let currentPath = '';
-
-    // Load markdown file
-    async function loadMarkdown(path) {
-      try {
-        // 移除開頭的 / 或 ./
-        let filePath = path.replace(/^\.?\//, '');
-        
-        console.log('Loading:', filePath); // Debug log
-        const response = await fetch(filePath);
-        
-        if (!response.ok) {
-          console.error(`HTTP Error: ${response.status} for ${filePath}`);
-          throw new Error(`無法載入 ${filePath} (Status: ${response.status})`);
-        }
-        
-        const markdown = await response.text();
-        console.log('Loaded successfully:', filePath); // Debug log
-        return markdown;
-      } catch (error) {
-        console.error('Error loading markdown:', error);
-        return null;
-      }
+    // MathJax 渲染
+    if(window.MathJax && window.MathJax.typesetPromise){
+      MathJax.typesetPromise([contentEl]).catch(err=>console.error(err));
     }
 
-    // Render content
-    async function renderContent(path) {
-      const contentEl = document.getElementById('content');
-      contentEl.innerHTML = '<div class="loading">載入內容中...</div>';
-      
-      const markdown = await loadMarkdown(path);
-      
-      if (markdown) {
-        contentEl.innerHTML = marked.parse(markdown);
-        
-        // Re-run Prism highlighting for all code blocks
-        contentEl.querySelectorAll('pre code').forEach((block) => {
-          // 檢測語言
-          const classes = block.className.match(/language-(\w+)/);
-          if (classes && classes[1]) {
-            const lang = classes[1];
-            if (Prism.languages[lang]) {
-              block.innerHTML = Prism.highlight(block.textContent, Prism.languages[lang], lang);
-            }
-          } else {
-            // 如果沒有指定語言，嘗試 C++ 作為預設
-            if (Prism.languages.cpp) {
-              block.className = 'language-cpp';
-              block.innerHTML = Prism.highlight(block.textContent, Prism.languages.cpp, 'cpp');
-            }
-          }
-        });
-        
-        // Re-typeset MathJax
-        if (window.MathJax && window.MathJax.typesetPromise) {
-          MathJax.typesetPromise([contentEl]).catch((err) => {
-            console.log('MathJax error:', err);
-          });
-        }
-        
-        // Scroll to top
-        window.scrollTo(0, 0);
-        
-        currentPath = path;
-      } else {
-        contentEl.innerHTML = `
-          <div class="error">
-            <h3>❌ 載入失敗</h3>
-            <p>無法載入檔案: ${path}</p>
-            <p>請確認檔案是否存在於正確的位置。</p>
-          </div>
-        `;
-      }
-    }
+    window.scrollTo(0,0);
+    currentPath = path;
+  }else{
+    contentEl.innerHTML = `<div class="error"><h3>❌ 載入失敗</h3><p>無法載入檔案: ${path}</p></div>`;
+  }
+}
 
-    // Render sidebar
-    async function renderSidebar() {
-      const sidebarEl = document.getElementById('sidebarContent');
-      
-      const markdown = await loadMarkdown('_sidebar.md');
-      
-      if (markdown) {
-        sidebarEl.innerHTML = marked.parse(markdown);
-        
-        // Add collapsible functionality to sections
-        const sections = sidebarEl.querySelectorAll('strong, p');
-        sections.forEach(section => {
-          // Find the next ul element (the submenu)
-          let nextElement = section.nextElementSibling;
-          while (nextElement && nextElement.tagName !== 'UL') {
-            nextElement = nextElement.nextElementSibling;
-          }
-          
-          if (nextElement && nextElement.tagName === 'UL') {
-            // Wrap the submenu in a collapsible div
-            const wrapper = document.createElement('div');
-            wrapper.className = 'sidebar-section';
-            nextElement.parentNode.insertBefore(wrapper, nextElement);
-            wrapper.appendChild(nextElement);
-            
-            // Add click handler to toggle
-            section.addEventListener('click', () => {
-              section.classList.toggle('expanded');
-              wrapper.classList.toggle('expanded');
-            });
-          }
-        });
-        
-        // Add click handlers to all links
-        const links = sidebarEl.querySelectorAll('a');
-        links.forEach(link => {
-          const href = link.getAttribute('href');
-          
-          // Skip external links
-          if (href && !href.startsWith('http')) {
-            link.addEventListener('click', (e) => {
-              e.preventDefault();
-              
-              // Update active state
-              links.forEach(l => l.classList.remove('active'));
-              link.classList.add('active');
-              
-              // 移除 href 中的 ./ 前綴
-              const cleanHref = href.replace(/^\.?\//, '');
-              
-              // Load content
-              window.location.hash = cleanHref;
-              
-              // Close mobile sidebar
-              if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('open');
-              }
-            });
-          }
-        });
-      } else {
-        sidebarEl.innerHTML = `
-          <div class="error">
-            <p>❌ 無法載入選單</p>
-            <p>請確認 _sidebar.md 檔案是否存在。</p>
-          </div>
-        `;
+// 顯示側邊欄
+async function renderSidebar(){
+  const sidebarEl = document.getElementById('sidebarContent');
+  const markdown = await loadMarkdown('_sidebar.md');
+  if(markdown){
+    sidebarEl.innerHTML = marked.parse(markdown);
+    const sections = sidebarEl.querySelectorAll('strong,p');
+    sections.forEach(section=>{
+      let next = section.nextElementSibling;
+      while(next && next.tagName!=='UL') next=next.nextElementSibling;
+      if(next){
+        const wrapper = document.createElement('div');
+        wrapper.className='sidebar-section';
+        next.parentNode.insertBefore(wrapper,next);
+        wrapper.appendChild(next);
+        section.addEventListener('click',()=>{section.classList.toggle('expanded'); wrapper.classList.toggle('expanded');});
       }
-    }
+    });
 
-    // Handle hash changes
-    function handleRouting() {
-      const hash = window.location.hash.slice(1) || 'README.md';
-      renderContent(hash);
-      
-      // Update active link
-      const links = document.querySelectorAll('#sidebarContent a');
-      links.forEach(link => {
-        const href = link.getAttribute('href');
-        const cleanHref = href ? href.replace(/^\.?\//, '') : '';
-        const cleanHash = hash.replace(/^\.?\//, '');
-        
-        if (cleanHref === cleanHash || (cleanHash === 'README.md' && (href === '/' || cleanHref === '' || cleanHref === 'README.md'))) {
+    const links = sidebarEl.querySelectorAll('a');
+    links.forEach(link=>{
+      const href = link.getAttribute('href');
+      if(href && !href.startsWith('http')){
+        link.addEventListener('click',e=>{
+          e.preventDefault();
+          links.forEach(l=>l.classList.remove('active'));
           link.classList.add('active');
-        } else {
-          link.classList.remove('active');
-        }
-      });
-    }
-
-    // Initialize
-    async function init() {
-      await renderSidebar();
-      handleRouting();
-    }
-
-    // Mobile menu toggle
-    document.getElementById('menuToggle').addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('open');
-    });
-
-    // Close sidebar when clicking main content on mobile
-    document.getElementById('main').addEventListener('click', () => {
-      if (window.innerWidth <= 768) {
-        document.getElementById('sidebar').classList.remove('open');
+          const cleanHref = href.replace(/^\.?\//,'');
+          window.location.hash = cleanHref;
+          if(window.innerWidth<=768) document.getElementById('sidebar').classList.remove('open');
+        });
       }
     });
+  }else{
+    sidebarEl.innerHTML=`<div class="error"><p>❌ 無法載入選單</p></div>`;
+  }
+}
 
-    // Home link
-    document.getElementById('homeLink').addEventListener('click', () => {
-      window.location.hash = 'README.md';
-    });
+// hash 路由
+function handleRouting(){
+  const hash = window.location.hash.slice(1) || 'README.md';
+  renderContent(hash);
+  const links = document.querySelectorAll('#sidebarContent a');
+  links.forEach(link=>{
+    const href = link.getAttribute('href')||'';
+    if(href.replace(/^\.?\//,'')===hash.replace(/^\.?\//,'')){
+      link.classList.add('active');
+    }else link.classList.remove('active');
+  });
+}
 
-    // Listen for hash changes
-    window.addEventListener('hashchange', handleRouting);
+// 初始化
+async function init(){
+  await renderSidebar();
+  handleRouting();
+}
 
-    // Start the app
-    init();
-  </script>
+document.getElementById('menuToggle').addEventListener('click',()=>{document.getElementById('sidebar').classList.toggle('open');});
+document.getElementById('main').addEventListener('click',()=>{if(window.innerWidth<=768) document.getElementById('sidebar').classList.remove('open');});
+document.getElementById('homeLink').addEventListener('click',()=>{window.location.hash='README.md';});
+window.addEventListener('hashchange',handleRouting);
+
+init();
+</script>
 </body>
 </html>
