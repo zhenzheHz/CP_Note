@@ -466,17 +466,49 @@
 
   <!-- Prism JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+  <script>
+    // Wait for Prism to load before loading components
+    document.addEventListener('DOMContentLoaded', function() {
+      const scripts = [
+        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js'
+      ];
+      
+      function loadScript(src) {
+        return new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = src;
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      }
+      
+      // Load scripts sequentially
+      scripts.reduce((promise, script) => {
+        return promise.then(() => loadScript(script));
+      }, Promise.resolve()).then(() => {
+        console.log('All Prism components loaded successfully');
+      }).catch(error => {
+        console.error('Error loading Prism components:', error);
+      });
+    });
+  </script>
 
   <script>
     // Configure marked
     marked.setOptions({
       highlight: function(code, lang) {
-        if (Prism.languages[lang]) {
-          return Prism.highlight(code, Prism.languages[lang], lang);
+        // Check if Prism is available and language is supported
+        if (typeof Prism !== 'undefined' && Prism.languages && Prism.languages[lang]) {
+          try {
+            return Prism.highlight(code, Prism.languages[lang], lang);
+          } catch (e) {
+            console.warn('Prism highlighting error:', e);
+            return code;
+          }
         }
         return code;
       },
@@ -534,28 +566,70 @@
         contentEl.innerHTML = marked.parse(markdown);
         
         // Re-run Prism highlighting for all code blocks
-        contentEl.querySelectorAll('pre code').forEach((block) => {
-          // 檢測語言
-          const classes = block.className.match(/language-(\w+)/);
-          if (classes && classes[1]) {
-            const lang = classes[1];
-            if (Prism.languages[lang]) {
-              block.innerHTML = Prism.highlight(block.textContent, Prism.languages[lang], lang);
+        function highlightCodeBlocks() {
+          contentEl.querySelectorAll('pre code').forEach((block) => {
+            // 檢測語言
+            const classes = block.className.match(/language-(\w+)/);
+            if (classes && classes[1]) {
+              const lang = classes[1];
+              if (Prism.languages && Prism.languages[lang]) {
+                block.innerHTML = Prism.highlight(block.textContent, Prism.languages[lang], lang);
+              }
+            } else {
+              // 如果沒有指定語言，嘗試 C++ 作為預設
+              if (Prism.languages && Prism.languages.cpp) {
+                block.className = 'language-cpp';
+                block.innerHTML = Prism.highlight(block.textContent, Prism.languages.cpp, 'cpp');
+              }
             }
-          } else {
-            // 如果沒有指定語言，嘗試 C++ 作為預設
-            if (Prism.languages.cpp) {
-              block.className = 'language-cpp';
-              block.innerHTML = Prism.highlight(block.textContent, Prism.languages.cpp, 'cpp');
+          });
+        }
+        
+        // Check if Prism is fully loaded
+        if (typeof Prism !== 'undefined' && Prism.languages) {
+          highlightCodeBlocks();
+        } else {
+          // Wait for Prism to load
+          const checkPrism = setInterval(() => {
+            if (typeof Prism !== 'undefined' && Prism.languages && Prism.languages.cpp) {
+              clearInterval(checkPrism);
+              highlightCodeBlocks();
             }
-          }
-        });
+          }, 100);
+          
+          // Timeout after 5 seconds
+          setTimeout(() => {
+            clearInterval(checkPrism);
+            console.warn('Prism loading timeout');
+          }, 5000);
+        }
         
         // Re-typeset MathJax
+        function renderMath() {
+          if (window.MathJax && window.MathJax.typesetPromise) {
+            MathJax.typesetPromise([contentEl]).catch((err) => {
+              console.log('MathJax error:', err);
+            });
+          }
+        }
+        
+        // Check if MathJax is loaded
         if (window.MathJax && window.MathJax.typesetPromise) {
-          MathJax.typesetPromise([contentEl]).catch((err) => {
-            console.log('MathJax error:', err);
-          });
+          renderMath();
+        } else {
+          // Wait for MathJax to load
+          const checkMathJax = setInterval(() => {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+              clearInterval(checkMathJax);
+              renderMath();
+            }
+          }, 100);
+          
+          // Timeout after 10 seconds
+          setTimeout(() => {
+            clearInterval(checkMathJax);
+            console.warn('MathJax loading timeout');
+          }, 10000);
         }
         
         // Scroll to top
