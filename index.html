@@ -11,11 +11,40 @@
   <!-- Marked.js for Markdown parsing -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   
+  <!-- MathJax Configuration (must be before the script) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        tags: 'ams'
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+        processHtmlClass: 'tex2jax_process',
+        ignoreHtmlClass: 'tex2jax_ignore'
+      },
+      startup: {
+        pageReady: () => {
+          console.log('MathJax startup pageReady called');
+          return MathJax.startup.defaultPageReady();
+        },
+        ready: () => {
+          console.log('MathJax is ready!');
+          MathJax.startup.defaultReady();
+          window.dispatchEvent(new CustomEvent('mathjaxReady'));
+        }
+      }
+    };
+  </script>
+  
   <!-- MathJax -->
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   
-  <!-- Prism CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  <!-- Highlight.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
   
   <style>
     * {
@@ -69,6 +98,7 @@
       width: 100%;
       max-width: 1400px;
       margin: 0 auto;
+      justify-content: space-between;
     }
 
     .logo {
@@ -78,10 +108,67 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-right: auto;
       cursor: pointer;
       animation: gradientShift 3s ease infinite;
       background-size: 200% 200%;
+    }
+
+    /* Navbar styles */
+    .navbar {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .navbar ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 1.5rem;
+    }
+
+    .navbar a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .navbar a:hover {
+      color: var(--text-primary);
+      background: rgba(99, 102, 241, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .navbar a:before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--primary-light);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .navbar a:hover:before {
+      width: 80%;
+    }
+
+    .navbar a.active {
+      color: var(--primary-light);
+      background: rgba(99, 102, 241, 0.15);
+    }
+
+    .navbar a.active:before {
+      width: 80%;
     }
 
     @keyframes gradientShift {
@@ -336,6 +423,62 @@
       margin-bottom: 0;
     }
 
+    /* Fix heading alignment in blockquotes */
+    .content blockquote h1,
+    .content blockquote h2,
+    .content blockquote h3,
+    .content blockquote h4,
+    .content blockquote h5,
+    .content blockquote h6 {
+      margin-top: 0.75rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+      font-weight: 600;
+      border-bottom: none !important;
+      padding-bottom: 0 !important;
+    }
+
+    .content blockquote h1:first-child,
+    .content blockquote h2:first-child,
+    .content blockquote h3:first-child,
+    .content blockquote h4:first-child,
+    .content blockquote h5:first-child,
+    .content blockquote h6:first-child {
+      margin-top: 0;
+    }
+
+    .content blockquote h1:last-child,
+    .content blockquote h2:last-child,
+    .content blockquote h3:last-child,
+    .content blockquote h4:last-child,
+    .content blockquote h5:last-child,
+    .content blockquote h6:last-child {
+      margin-bottom: 0;
+    }
+
+    .content blockquote h3 {
+      font-size: 1.3rem;
+    }
+
+    .content blockquote h4 {
+      font-size: 1.15rem;
+    }
+
+    /* Fix paragraph spacing in blockquotes */
+    .content blockquote p {
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+
+    .content blockquote p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Fix blockquote content alignment */
+    .content blockquote > * {
+      text-align: left;
+    }
+
     .content table {
       width: 100%;
       border-collapse: collapse;
@@ -409,12 +552,44 @@
         padding: 0 1rem;
       }
 
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0.5rem 0;
+      }
+
+      .navbar {
+        gap: 1rem;
+      }
+
+      .navbar ul {
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .navbar a {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+      }
+
       .content h1 {
         font-size: 2rem;
       }
 
       .content h2 {
         font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar ul {
+        gap: 0.25rem;
+      }
+
+      .navbar a {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
       }
     }
 
@@ -440,8 +615,8 @@
       overflow-y: hidden;
     }
 
-    /* Enhanced code block styling */
-    .content pre[class*="language-"] {
+    /* Enhanced code block styling for highlight.js */
+    .content pre code.hljs {
       position: relative;
       background: var(--bg-secondary) !important;
       border: 1px solid var(--border);
@@ -450,25 +625,30 @@
       overflow-x: auto;
       margin: 1.5rem 0;
       box-shadow: 0 4px 6px var(--shadow);
-    }
-
-    .content code[class*="language-"] {
-      background: none !important;
-      padding: 0 !important;
-      border-radius: 0 !important;
-      color: inherit !important;
       font-family: 'JetBrains Mono', monospace !important;
       font-size: 0.9em !important;
       line-height: 1.5 !important;
+      display: block;
+    }
+
+    .content pre {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      margin: 1.5rem 0;
+      box-shadow: none;
     }
 
     /* Ensure inline code maintains its styling */
-    .content p code:not([class*="language-"]),
-    .content li code:not([class*="language-"]) {
+    .content p code:not(.hljs),
+    .content li code:not(.hljs) {
       background: var(--bg-secondary) !important;
       padding: 0.2rem 0.5rem !important;
       border-radius: 4px !important;
       color: var(--primary-light) !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 0.9em !important;
     }
   </style>
 </head>
@@ -476,8 +656,13 @@
   <!-- Header -->
   <header class="header">
     <div class="header-content">
-      <button class="menu-toggle" id="menuToggle">☰</button>
-      <div class="logo" id="homeLink">🏆 競程講義</div>
+      <div style="display: flex; align-items: center;">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="logo" id="homeLink">🏆 競程講義</div>
+      </div>
+      <nav class="navbar" id="navbar">
+        <div class="loading">載入導航中...</div>
+      </nav>
     </div>
   </header>
 
@@ -495,80 +680,42 @@
     </div>
   </main>
 
-  <!-- Prism JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <!-- Highlight.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/c.min.js"></script>
+  
   <script>
-    // Wait for Prism to be fully loaded and ready
-    function waitForPrism() {
-      return new Promise((resolve) => {
-        if (typeof Prism !== 'undefined' && Prism.languages) {
-          resolve();
-        } else {
-          const checkPrism = setInterval(() => {
-            if (typeof Prism !== 'undefined' && Prism.languages) {
-              clearInterval(checkPrism);
-              resolve();
-            }
-          }, 50);
-        }
-      });
-    }
-
-    // Load Prism components after main Prism is ready
-    async function loadPrismComponents() {
-      await waitForPrism();
+    // Configure highlight.js
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM loaded, hljs ready:', typeof hljs !== 'undefined');
       
-      const scripts = [
-        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js',
-        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js',
-        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js',
-        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js'
-      ];
-      
-      function loadScript(src) {
-        return new Promise((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src = src;
-          script.onload = () => {
-            console.log('Loaded:', src);
-            resolve();
-          };
-          script.onerror = reject;
-          document.head.appendChild(script);
-        });
+      if (typeof hljs !== 'undefined') {
+        console.log('Highlight.js loaded successfully');
+        window.dispatchEvent(new CustomEvent('highlightReady'));
+      } else {
+        console.error('Highlight.js failed to load');
       }
-      
-      // Load scripts sequentially with delay
-      for (const scriptSrc of scripts) {
-        try {
-          await loadScript(scriptSrc);
-          // Small delay between loads to ensure proper initialization
-          await new Promise(resolve => setTimeout(resolve, 100));
-        } catch (error) {
-          console.error('Error loading script:', scriptSrc, error);
-        }
-      }
-      
-      console.log('All Prism components loaded successfully');
-      
-      // Trigger a custom event when all components are ready
-      window.dispatchEvent(new CustomEvent('prismReady'));
-    }
-
-    // Start loading when DOM is ready
-    document.addEventListener('DOMContentLoaded', loadPrismComponents);
+    });
   </script>
 
   <script>
     // Configure marked
     marked.setOptions({
       highlight: function(code, lang) {
-        // Check if Prism is available and language is supported
-        if (typeof Prism !== 'undefined' && Prism.languages && Prism.languages[lang]) {
+        // Check if highlight.js is available
+        if (typeof hljs !== 'undefined') {
           try {
-            return Prism.highlight(code, Prism.languages[lang], lang);
+            if (lang && hljs.getLanguage(lang)) {
+              return hljs.highlight(code, { language: lang }).value;
+            } else {
+              // Auto-detect language
+              return hljs.highlightAuto(code).value;
+            }
           } catch (e) {
-            console.warn('Prism highlighting error:', e);
+            console.warn('Highlight.js error:', e);
             return code;
           }
         }
@@ -578,27 +725,7 @@
       gfm: true
     });
 
-    // MathJax configuration
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true,
-        processEnvironments: true,
-        tags: 'ams'
-      },
-      options: {
-        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-        processHtmlClass: 'tex2jax_process',
-        ignoreHtmlClass: 'tex2jax_ignore'
-      },
-      startup: {
-        pageReady: () => {
-          console.log('MathJax startup pageReady called');
-          return MathJax.startup.defaultPageReady();
-        }
-      }
-    };
+    // MathJax configuration is now at the top of the file
 
     let currentPath = '';
 
@@ -635,109 +762,113 @@
       if (markdown) {
         contentEl.innerHTML = marked.parse(markdown);
         
-        // Re-run Prism highlighting for all code blocks
+        // Re-run highlight.js for all code blocks
         function highlightCodeBlocks() {
+          if (typeof hljs === 'undefined') {
+            console.warn('Highlight.js not available');
+            return;
+          }
+          
           contentEl.querySelectorAll('pre code').forEach((block) => {
             // Store original text content
             const text = block.textContent;
             
-            // 檢測語言
-            const classes = block.className.match(/language-(\w+)/);
-            if (classes && classes[1]) {
-              const lang = classes[1];
-              if (Prism.languages && Prism.languages[lang]) {
-                try {
-                  block.innerHTML = Prism.highlight(text, Prism.languages[lang], lang);
-                  block.classList.add('language-' + lang);
-                } catch (e) {
-                  console.warn('Prism highlighting error for', lang, ':', e);
+            try {
+              // 檢測語言
+              const classes = block.className.match(/language-(\w+)/);
+              if (classes && classes[1]) {
+                const lang = classes[1];
+                if (hljs.getLanguage(lang)) {
+                  const result = hljs.highlight(text, { language: lang });
+                  block.innerHTML = result.value;
+                  block.className = `hljs language-${lang}`;
+                } else {
+                  // Auto-detect if language not supported
+                  const result = hljs.highlightAuto(text);
+                  block.innerHTML = result.value;
+                  block.className = `hljs language-${result.language || 'auto'}`;
+                }
+              } else {
+                // 如果沒有指定語言，嘗試 C++ 作為預設
+                if (hljs.getLanguage('cpp')) {
+                  const result = hljs.highlight(text, { language: 'cpp' });
+                  block.innerHTML = result.value;
+                  block.className = 'hljs language-cpp';
+                } else {
+                  // Fallback to auto-detect
+                  const result = hljs.highlightAuto(text);
+                  block.innerHTML = result.value;
+                  block.className = `hljs language-${result.language || 'auto'}`;
                 }
               }
-            } else {
-              // 如果沒有指定語言，嘗試 C++ 作為預設
-              if (Prism.languages && Prism.languages.cpp) {
-                try {
-                  block.className = 'language-cpp';
-                  block.innerHTML = Prism.highlight(text, Prism.languages.cpp, 'cpp');
-                } catch (e) {
-                  console.warn('Prism highlighting error for cpp:', e);
-                }
-              }
+            } catch (e) {
+              console.warn('Highlight.js error:', e);
             }
           });
         }
         
-        // Wait for Prism components to be ready
-        function waitForPrismReady() {
-          return new Promise((resolve) => {
-            if (typeof Prism !== 'undefined' && Prism.languages && Prism.languages.cpp) {
-              resolve();
-            } else {
-              // Listen for custom prismReady event
-              window.addEventListener('prismReady', resolve, { once: true });
-              
-              // Fallback: check periodically
-              const checkPrism = setInterval(() => {
-                if (typeof Prism !== 'undefined' && Prism.languages && Prism.languages.cpp) {
-                  clearInterval(checkPrism);
-                  resolve();
-                }
-              }, 200);
-              
-              // Timeout after 10 seconds
-              setTimeout(() => {
-                clearInterval(checkPrism);
-                console.warn('Prism loading timeout');
-                resolve(); // Still resolve to continue
-              }, 10000);
-            }
-          });
+        // Simple approach: try highlighting immediately and with fallback
+        function applyHighlighting() {
+          if (typeof hljs !== 'undefined') {
+            highlightCodeBlocks();
+          } else {
+            // Wait for highlightReady event
+            window.addEventListener('highlightReady', highlightCodeBlocks, { once: true });
+            
+            // Additional fallback
+            setTimeout(() => {
+              if (typeof hljs !== 'undefined') {
+                highlightCodeBlocks();
+              }
+            }, 1000);
+          }
         }
         
-        // Apply syntax highlighting when Prism is ready
-        waitForPrismReady().then(() => {
-          highlightCodeBlocks();
-        });
+        applyHighlighting();
         
-        // Re-typeset MathJax
+        // Enhanced MathJax rendering
         function renderMath() {
           if (window.MathJax && window.MathJax.typesetPromise) {
             console.log('Starting MathJax rendering...');
+            // Clear previous processing
+            MathJax.typesetClear([contentEl]);
+            // Process new content
             MathJax.typesetPromise([contentEl]).then(() => {
-              console.log('MathJax rendering completed');
+              console.log('MathJax rendering completed successfully');
             }).catch((err) => {
               console.error('MathJax error:', err);
             });
+          } else {
+            console.warn('MathJax typesetPromise not available');
           }
         }
         
         // Wait for MathJax to be ready
-        function waitForMathJax() {
-          return new Promise((resolve) => {
-            if (window.MathJax && window.MathJax.typesetPromise) {
-              resolve();
-            } else {
-              const checkMathJax = setInterval(() => {
-                if (window.MathJax && window.MathJax.typesetPromise) {
-                  clearInterval(checkMathJax);
-                  resolve();
-                }
-              }, 100);
-              
-              // Timeout after 15 seconds
-              setTimeout(() => {
+        function applyMathJax() {
+          if (window.MathJax && window.MathJax.typesetPromise) {
+            // MathJax is ready, render immediately
+            renderMath();
+          } else {
+            // Listen for the mathjaxReady event
+            window.addEventListener('mathjaxReady', renderMath, { once: true });
+            
+            // Fallback: check periodically
+            let attempts = 0;
+            const maxAttempts = 20;
+            const checkMathJax = setInterval(() => {
+              attempts++;
+              if (window.MathJax && window.MathJax.typesetPromise) {
                 clearInterval(checkMathJax);
-                console.warn('MathJax loading timeout');
-                resolve(); // Still resolve to continue
-              }, 15000);
-            }
-          });
+                renderMath();
+              } else if (attempts >= maxAttempts) {
+                clearInterval(checkMathJax);
+                console.warn('MathJax not available after', maxAttempts, 'attempts');
+              }
+            }, 300);
+          }
         }
         
-        // Apply MathJax rendering when ready
-        waitForMathJax().then(() => {
-          renderMath();
-        });
+        applyMathJax();
         
         // Scroll to top
         window.scrollTo(0, 0);
@@ -749,6 +880,46 @@
             <h3>❌ 載入失敗</h3>
             <p>無法載入檔案: ${path}</p>
             <p>請確認檔案是否存在於正確的位置。</p>
+          </div>
+        `;
+      }
+    }
+
+    // Render navbar
+    async function renderNavbar() {
+      const navbarEl = document.getElementById('navbar');
+      
+      const markdown = await loadMarkdown('_navbar.md');
+      
+      if (markdown) {
+        navbarEl.innerHTML = marked.parse(markdown);
+        
+        // Add click handlers to all navbar links
+        const links = navbarEl.querySelectorAll('a');
+        links.forEach(link => {
+          const href = link.getAttribute('href');
+          
+          // Skip external links
+          if (href && !href.startsWith('http')) {
+            link.addEventListener('click', (e) => {
+              e.preventDefault();
+              
+              // Update active state
+              links.forEach(l => l.classList.remove('active'));
+              link.classList.add('active');
+              
+              // 移除 href 中的 ./ 前綴
+              const cleanHref = href.replace(/^\.?\//, '');
+              
+              // Load content
+              window.location.hash = cleanHref;
+            });
+          }
+        });
+      } else {
+        navbarEl.innerHTML = `
+          <div class="error">
+            <p>❌ 無法載入導航</p>
           </div>
         `;
       }
@@ -829,9 +1000,9 @@
       const hash = window.location.hash.slice(1) || 'README.md';
       renderContent(hash);
       
-      // Update active link
-      const links = document.querySelectorAll('#sidebarContent a');
-      links.forEach(link => {
+      // Update active link in sidebar
+      const sidebarLinks = document.querySelectorAll('#sidebarContent a');
+      sidebarLinks.forEach(link => {
         const href = link.getAttribute('href');
         const cleanHref = href ? href.replace(/^\.?\//, '') : '';
         const cleanHash = hash.replace(/^\.?\//, '');
@@ -842,11 +1013,28 @@
           link.classList.remove('active');
         }
       });
+      
+      // Update active link in navbar
+      const navbarLinks = document.querySelectorAll('#navbar a');
+      navbarLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        const cleanHref = href ? href.replace(/^\.?\//, '') : '';
+        const cleanHash = hash.replace(/^\.?\//, '');
+        
+        if (cleanHref === cleanHash) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
     }
 
     // Initialize
     async function init() {
-      await renderSidebar();
+      await Promise.all([
+        renderNavbar(),
+        renderSidebar()
+      ]);
       handleRouting();
     }
 
