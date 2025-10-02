@@ -60,6 +60,56 @@ sort(vec.begin(),vec.end(),[&](int a,int b){
 });
 ```
 
+> ### [TOI 2023 - A.房屋推薦](https://tioj.ck.tp.edu.tw/problems/2330)
+>
+> 難度：$3/10$
+> <details> 
+>     <summary> 參考解法 </summary>
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> static constexpr int MAXN = 1e5+5, MAXM = 1e3+5;
+> int n,m;
+> pair<int,int> station[MAXM];
+> struct House {
+>     int x,y,rent,id,dis = LLONG_MAX;
+>     void init() {
+>         for(int i=1;i<=m;i++) {
+>             auto [xp,yp] = station[i];
+>             dis = min(dis, (x-xp)*(x-xp)+(y-yp)*(y-yp));
+>         }
+>     }
+>     bool operator<(const House &cmp) {
+>         if(dis == cmp.dis) {
+>             if(rent == cmp.rent) return id < cmp.id;
+>             else return rent < cmp.rent;
+>         }return dis < cmp.dis;
+>     }
+> };
+> House houses[MAXN];
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     cin >> n >> m;
+>     for(int i=1;i<=n;i++) {
+>         House s;
+>         cin >> s.x >> s.y >> s.rent;
+>         s.id = i;
+>         houses[i] = s;
+>     }
+>     for(int i=1;i<=m;i++) {
+>         cin >> station[i].first >> station[i].second;
+>     }
+>     for(int i=1;i<=n;i++) houses[i].init();
+>     sort(houses+1, houses+n+1);
+>     for(int i=1;i<=n;i++)
+>         cout << houses[i].id << "\n";
+>     return 0;
+> }
+> ```
+> </details>
+
 ---
 
 ## 翻轉
@@ -77,9 +127,9 @@ cout << str; // "EDCBA"
 
 | Function | Functionality | Time Complexity | Notes |
 |:--------:|:-------------|:---------------|:-----|
-| `binary_search(v.begin(), v.end(), x)` | 判斷是否存在元素 $x$ | $O(\log n)$ | 只返回 true/false，不返回位置 |
-| `lower_bound(v.begin(), v.end(), x)` | 回傳第一個 $\geq x$ 的 iterator | $O(\log n)$ | 若不存在，返回 `end()` |
-| `upper_bound(v.begin(), v.end(), x)` | 回傳第一個 $> x$ 的 iterator | $O(\log n)$ | 若不存在，返回 `end()` |
+| `binary_search(v.begin(),v.end(),x)` | 判斷是否存在元素 $x$ | $O(\log n)$ | 只返回 true/false，不返回位置 |
+| `lower_bound(v.begin(),v.end(),x)` | 回傳第一個 $\geq x$ 的 iterator | $O(\log n)$ | 若不存在，返回 `end()` |
+| `upper_bound(v.begin(),v.end(),x)` | 回傳第一個 $> x$ 的 iterator | $O(\log n)$ | 若不存在，返回 `end()` |
 
 > `set` 和 `map` 都有自己的 `lower_bound()` 和 `upper_bound` 但是回傳的 iterator 就不支援互相加減的操作
 >
@@ -112,6 +162,7 @@ do {
 - `unique(L,R)`：去除相鄰的重複元素移動到容器結尾，回傳去重後結尾的 `iterator`
 - 舉例：$[1,1,1,2,2,3,4,4,5]\rightarrow [1,2,3,4,5,1,1,2,4]$ ，回傳的 `5` 的位置的迭代器
 - 基本上會用在 `離散化` 上
+
 
 
 
