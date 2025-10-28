@@ -105,6 +105,8 @@
 > ```
 > </details>
 
+---
+
 ### 二、字串處理題型
 
 這類的題目或多或少也算是實作題的一種，不過要注意的事情就比較多了，有時候（通常）還需要搭配一些資料結構來處理
@@ -228,7 +230,30 @@ bool digit = isdigit('0'); // 判斷是否為數字（char 的 0~9），true
 > ```
 > </details>
 
+---
 
+### 三、大數處理
 
+就是經典的大數題目，因為 `long long` 的最大值只到 $2^63-1$，所以當題目的值可以到 $10^{10^6}$ 這種等級就要用大數
 
+$P.S.$ 如果題目根本沒說可能會多大，就最好用一下比較保險，畢竟除了除法之外都算好寫
+
+實作上的話我個人喜歡用 `vector<int16_t>` 來寫，`index = 0` 是個位數（反過來存）
+
+```cpp
+using Integar vector<int16_t>;
+Integar operator+(const Integar &A, const Integar &B) {
+    Integar C;
+    int16_t carry = 0;
+    for(size_t i = 0; i < max(A.size(), B.size()); i++) {
+        int16_t a = (i < A.size()? A[i] : 0);
+        int16_t b = (i < B.size()? B[i] : 0);
+        int sum = a + b + carry;
+        C.push_back(sum % 10);
+        carry = sum / 10;
+    }
+    if(carry) C.push_back(carry);
+    return C;
+}
+```
 
