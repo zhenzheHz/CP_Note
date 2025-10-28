@@ -257,4 +257,20 @@ Integar operator+(const Integar &A, const Integar &B) {
 }
 ```
 
+```cpp
+Integar operator*(const Integar &A, const Integar &B) {
+    Integar C(A.size() + B.size(), 0);
+    for(size_t i = 0; i < A.size(); i++) {
+        int16_t carry = 0;
+        for(size_t j = 0; j < B.size() || carry; j++) {
+            int a = A[i], b = (j < B.size()? B[j] : 0);
+            int product = C[i+j] + a * b + carry;
+            C[i+j] = product % 10;
+            carry = product / 10;
+        }
+    }
+    while(C.size() > 1 && C.back() == 0) C.pop_back();
+    return C;
+}
+```
 
