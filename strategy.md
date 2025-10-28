@@ -147,6 +147,15 @@ getline(cin,line2);
 
 另一點需要注意的就是行末可能會有 `'\r` 需要注意，避免被作業系統搞到
 
+解決辦法如下：
+```cpp
+void inspect(string &str) {
+    while(str.back() == '\r' || str.back() == '\n') {
+        str.pop_back();
+    }
+}
+```
+
 詳細可以參考：[淺談 CRLF 對程式競賽的影響](https://hackmd.io/@MelonHiker/H1CVcl5Dgl)
 
 寫這種題目的小技巧就是善用 `isalpha()`、`isdigit()`、`islower()`、`isupper()`
@@ -218,6 +227,7 @@ bool digit = isdigit('0'); // 判斷是否為數字（char 的 0~9），true
 > }
 > ```
 > </details>
+
 
 
 
