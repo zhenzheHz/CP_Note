@@ -145,6 +145,10 @@ getline(cin,line1);
 getline(cin,line2);
 ```
 
+另一點需要注意的就是行末可能會有 `'\r` 需要注意，避免被作業系統搞到
+
+詳細可以參考：[淺談 CRLF 對程式競賽的影響](https://hackmd.io/@MelonHiker/H1CVcl5Dgl)
+
 寫這種題目的小技巧就是善用 `isalpha()`、`isdigit()`、`islower()`、`isupper()`
 
 他們都會回傳 `true` 或 `false`，參數則是一個 `char`，簡單來說就是可以判斷一個 `char` 是字母、數字、大小寫
@@ -214,5 +218,6 @@ bool digit = isdigit('0'); // 判斷是否為數字（char 的 0~9），true
 > }
 > ```
 > </details>
+
 
 
