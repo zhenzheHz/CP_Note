@@ -130,7 +130,7 @@ this is line 2.
 你這樣輸入
 
 ```cpp
-cin >> n
+cin >> n;
 getline(cin,line1); // 會抓到第一行2後面的 '\n'
 getline(cin,line2); // hello, world
 ```
@@ -214,4 +214,5 @@ bool digit = isdigit('0'); // 判斷是否為數字（char 的 0~9），true
 > }
 > ```
 > </details>
+
 
