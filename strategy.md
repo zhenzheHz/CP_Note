@@ -18,7 +18,7 @@
 
 ## 題目類型
 
-### 實作題型
+### 一、實作題型
 
 這種題目類型其實就是在 [基礎演算法 - 模擬](https://zhenzhehz.github.io/CP_Note/#Basic/Implement.md) 中提過的那種
 
@@ -105,3 +105,111 @@
 > ```
 > </details>
 
+### 二、字串處理題型
+
+這類的題目或多或少也算是實作題的一種，不過要注意的事情就比較多了，有時候（通常）還需要搭配一些資料結構來處理
+
+所以務必熟悉 [STL](https://zhenzhehz.github.io/CP_Note/#STL/map.md) （尤其是 `map`）以及 [string](https://zhenzhehz.github.io/CP_Note/#STL/string.md) 的基本語法
+
+除此之外還需要知道 `getline()` 以及 [stringstream](https://zhenzhehz.github.io/CP_Note/#Syntax/optimize.md) 的用法
+
+也需要知道 `getline()` 和 `cin` 最好不要同時使用
+
+也要避免使用 `cin.ignore()`
+
+若 `getline()` 和 `cin` 同時使用，會造成 `getline` 會先讀到 `cin` 那行的 `\n`
+
+比如說輸入長這樣
+
+```
+2
+hello, world.
+this is line 2.
+```
+
+你這樣輸入
+
+```cpp
+cin >> n
+getline(cin,line1); // 會抓到第一行2後面的 '\n'
+getline(cin,line2); // hello, world
+```
+
+以下是正確範例，使用 `stoi()` 可以將 `string` 轉成 `int`
+
+```cpp
+string N,line1,line2;
+getline(cin,N);
+int n = stoi(N);
+getline(cin,line1);
+getline(cin,line2);
+```
+
+寫這種題目的小技巧就是善用 `isalpha()`、`isdigit()`、`islower()`、`isupper()`
+
+他們都會回傳 `true` 或 `false`，參數則是一個 `char`，簡單來說就是可以判斷一個 `char` 是字母、數字、大小寫
+
+```cpp
+bool upupercase = isupper('A'); // 判斷大寫，true
+bool lowercase = islower('A'); // 判斷小寫，false
+bool alphabet = isalpha('A'); // 判斷是否為字母（大小寫皆可），true
+bool digit = isdigit('0'); // 判斷是否為數字（char 的 0~9），true
+```
+
+以下是一題練習題可以練習上述函式的用法
+
+> ### [UVA 00245 - Uncompress](https://zerojudge.tw/ShowProblem?problemid=e569)
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> ```cpp
+> // Author : Zhenzhe
+> // Problem : https://zerojudge.tw/ShowProblem?problemid=e569
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> void inspect(string &str) {
+>     while(str.back() == '\r' || str.back() == '\n') {
+>         str.pop_back();
+>     }
+> }
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     string line, word;
+>     int index;
+>     vector<string> lst;
+>     while(getline(cin, line)) {
+>         // init
+>         inspect(line);
+>         if(line == "0") break;
+>         word.clear();
+>         index = 0;
+>         line.push_back('\n');
+>         // handle
+>         for(auto &ch : line) {
+>             if(isalpha(ch)) word.push_back(ch);
+>             else if(isdigit(ch)) index *= 10, index += ch - '0';
+>             else {
+>                 // check word
+>                 if(!word.empty()) {
+>                     cout << word;
+>                     lst.push_back(word);
+>                     word.clear();
+>                 }
+>                 // check number to substitute
+>                 if(index != 0) {
+>                     int sz = lst.size();
+>                     cout << lst[sz - index];
+>                     string tmp = lst[sz-index];
+>                     lst.erase(lst.end() - index);
+>                     lst.push_back(tmp);
+>                     index = 0;
+>                 }
+>                 cout << ch;
+>             }
+>         }
+>     }
+>     return 0;
+> }
+> ```
+> </details>
