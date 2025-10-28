@@ -241,7 +241,7 @@ $P.S.$ 如果題目根本沒說可能會多大，就最好用一下比較保險�
 實作上的話我個人喜歡用 `vector<int16_t>` 來寫，`index = 0` 是個位數（反過來存）
 
 ```cpp
-using Integar vector<int16_t>;
+using Integar = vector<int16_t>;
 Integar operator+(const Integar &A, const Integar &B) {
     Integar C;
     int16_t carry = 0;
@@ -256,4 +256,5 @@ Integar operator+(const Integar &A, const Integar &B) {
     return C;
 }
 ```
+
 
