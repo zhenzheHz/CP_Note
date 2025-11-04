@@ -291,6 +291,31 @@ Integar operator*(const Integar &A, const Integar &B) {
 }
 ```
 
+```cpp
+Integar operator/(const Integar &a, const Integar &b) {
+    if (cmp(b, {0}) == 0) throw runtime_error("Division by zero");
+    Integar quotient, remainder;
+    quotient.assign(a.size(), 0);
+    remainder = {};
+
+    for (int i = (int)a.size() - 1; i >= 0; i--) {
+        remainder.insert(remainder.begin(), a[i]);
+        trim(remainder);
+
+        int x = 0, l = 0, r = 9;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            Integar prod = b * Integar{(int16_t)m};
+            if (cmp(prod, remainder) <= 0) x = m, l = m + 1;
+            else r = m - 1;
+        }
+        quotient[i] = x;
+        remainder = remainder - b * Integar{(int16_t)x};
+    }
+    trim(quotient);
+    return quotient;
+}
+```
 
 
 
