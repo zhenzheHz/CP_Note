@@ -291,31 +291,33 @@ Integar operator*(const Integar &A, const Integar &B) {
 }
 ```
 
+除法比較不一樣
+
 ```cpp
-Integar operator/(const Integar &a, const Integar &b) {
-    if (cmp(b, {0}) == 0) throw runtime_error("Division by zero");
-    Integar quotient, remainder;
-    quotient.assign(a.size(), 0);
-    remainder = {};
-
-    for (int i = (int)a.size() - 1; i >= 0; i--) {
-        remainder.insert(remainder.begin(), a[i]);
-        trim(remainder);
-
-        int x = 0, l = 0, r = 9;
-        while (l <= r) {
-            int m = (l + r) / 2;
-            Integar prod = b * Integar{(int16_t)m};
-            if (cmp(prod, remainder) <= 0) x = m, l = m + 1;
-            else r = m - 1;
+// A, B 皆為正向
+integar operator/(integar A,integar B) {
+    integar quotient;
+    if(!geq(A,B)) return {0};
+    int k = A.size() - B.size();
+    while(B.size() < A.size()) B.push_back(0);
+    for(int i = 0; i <= k; i++) {
+        int16_t l = -1, r = 10;
+        while(l+1!=r) {
+            integar m = {(l+r)/2};
+            if(geq(A, B * m)) l = (l+r)/2;
+            else r = (l+r)/2;
         }
-        quotient[i] = x;
-        remainder = remainder - b * Integar{(int16_t)x};
+        integar tmp = {l};
+        integar C = B * tmp;
+        A = A - C;
+        B.pop_back();
+        if(quotient.size() || l != 0)quotient.push_back(l);
     }
-    trim(quotient);
+    // integar remainer = A;
     return quotient;
 }
 ```
+
 
 
 
