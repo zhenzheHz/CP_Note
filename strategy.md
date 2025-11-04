@@ -338,9 +338,41 @@ integar operator/(integar A,integar B) {
 }
 ```
 
+> ### [2016 高雄市資訊學科能力競賽 第一題 - 畢氏定理](https://zerojudge.tw/ShowProblem?problemid=b898)
+>
+> 這題只有用大數比較大小
+>
+> <details>
+>     <summary> 參考解法 </summary>
+> 
+> ```cpp
+> // Author : Zhenzhe
+> // Problem : https://zerojudge.tw/ShowProblem?problemid=b898
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> bool cmp(const string &A, const string &B) {
+>     return (A.size() == B.size()? A < B : A.size() < B.size());
+> }
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     int x;
+>     cin >> x;
+>     string a,b,c;
+>     for(int i = 0; i < 5; i++) {
+>         cin >> a >> b >> c;
+>         vector<string> t = {a,b,c};
+>         stable_sort(t.begin(), t.end(), cmp);
+>         cout << *t.rbegin() << '\n';
+>     }
+>     return 0;
+> }
+> ```
+> </details>
+
 > ### [UVA 00495 - Fibonacci Freeze](https://zerojudge.tw/ShowProblem?problemid=c121)
 >
-> 只有大數加法
+> 這題只有大數加法
 >
 > <details>
 >     <summary> 參考解法 </summary>
@@ -582,5 +614,6 @@ integar operator/(integar A,integar B) {
 > }
 > ```
 > </details>
+
 
 
