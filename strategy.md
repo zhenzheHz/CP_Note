@@ -344,6 +344,7 @@ integar operator/(integar A,integar B) {
 >
 > <details>
 >     <summary> 參考解法 </summary>
+>
 > ```cpp
 > // Author : Zhenzhe
 > // Problem : https://zerojudge.tw/ShowProblem?problemid=c121
@@ -392,6 +393,7 @@ integar operator/(integar A,integar B) {
 >
 > <details>
 >     <summary> 參考解法 </summary>
+>
 > ```cpp
 > // Author : Zhenzhe
 > // Problem : https://zerojudge.tw/ShowProblem?problemid=a021
@@ -580,4 +582,5 @@ integar operator/(integar A,integar B) {
 > }
 > ```
 > </details>
+
 
