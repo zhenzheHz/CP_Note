@@ -737,7 +737,152 @@ integar operator/(integar A,integar B) {
 > </details>
 
 
+---
 
+## 四、基礎數論
 
+這個地方有四個重點：質數篩、快速冪、因數分解、最大公因數
 
+### 1. 質數篩
 
+複雜度比較好的做法就是埃氏篩法，複雜度大概 $O(N\log \log N)$
+
+簡單來說就是在窮舉質數的過程中把質數的倍數篩選掉
+
+假設說求 $1$ ~ $100$ 中的所有質數，檢查完 $2$ 之後就把所有 $2$ 的倍數都刪掉
+
+以下是模板
+
+```cpp
+vector<int> primes;
+void handle(const int &MAXN) {
+    vector<bool> is_prime(MAXN, 1);
+    is_prime[0] = is_prime[1] = 0;
+    for(int i = 2; i < MAXN; i++) {
+        if(is_prime[i]) {
+            primes.push_back(i);
+            for(int j = i*i; j < MAXN; j += i) {
+                is_prime[j] = 0;
+            }
+        }
+    }
+}
+```
+
+### 2. 快速冪
+
+就是基本中的基本，但還要對費馬小定理有一定的瞭解
+
+$if\ (a,p) = 1 \rightarrow a^{p-1}\equiv 1(mod\ p)$
+
+以下是 $a^b$ 模板，有遞迴和迴圈兩種
+
+```cpp
+int fp(int a,int b) {
+    if(b == 0) return 1;
+    if(b & 1) return a * fp(a,b-1) % mod;
+    int h = fp(a,b>>1);
+    return h * h % mod;
+}
+```
+
+```cpp
+int ans = 1;
+while(b) {
+    if(b & 1) ans *= a;
+    a *= a;
+    b >>= 1;
+}
+```
+
+### 3. 因數分解
+
+通常會搭配質數篩做使用，以下是模板
+
+```cpp
+map<int,int> factors;
+for(auto &prime : primes) {
+    if(number < prime || number <= 1) break;
+    while(number % prime == 0) {
+        factors[prime] += 1;
+        number /= prime;
+    }
+}
+if(number > 1) factors.insert({number,1});
+```
+
+### 4. 最大公因數
+
+最小公倍數也可以用一樣的求法，要知道 $ab = gcd(a,b)\times lcm(a,b)$
+
+實作上不可能把兩個數字都因數分解玩找相同
+
+所以可以使用 `輾轉相除法` 來實作
+
+```cpp
+int gcd(int a,int b) {
+    if(b == 0) return a;
+    return gcd(b,a%b);
+}
+```
+
+> ### [UVA 516 - Prime Land](https://zerojudge.tw/ShowProblem?problemid=c088)
+>
+> 質數篩+因數分解
+> <details>
+>     <summary> 參考解法 </summary>
+> 
+> ```cpp
+> // Author : Zhenzhe
+> // Problem : https://zerojudge.tw/ShowProblem?problemid=c088
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> static constexpr int MAXN = 2e5+5;
+> vector<int> primes;
+> void handle() {
+>     bitset<MAXN> is_prime;
+>     is_prime.set();
+>     is_prime[0] = is_prime[1] = 0;
+>     for(int i = 2; i < MAXN; i++) {
+>         if(is_prime[i]) {
+>             primes.push_back(i);
+>             for(int j = i*i; j < MAXN; j += i) {
+>                 is_prime[j] = 0;
+>             }
+>         }
+>     }
+> }
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     handle();
+>     string line;
+>     while(getline(cin,line)) {
+>         if(line == "0") break;
+>         stringstream ss;
+>         ss << line;
+>         string base, power;
+>         int number = 1;
+>         while(ss >> base >> power) {
+>             int a = stoi(base), b = stoi(power);
+>             number *= pow(a,b);
+>         }
+>         number--;
+>         map<int,int> factors;
+>         for(auto &prime : primes) {
+>             if(number < prime || number <= 1) break;
+>             while(number % prime == 0) {
+>                 factors[prime] += 1;
+>                 number /= prime;
+>             }
+>         }
+>         if(number > 1) factors.insert({number,1});
+>         for(auto it = factors.rbegin(); it != factors.rend(); it++) {
+>             cout << it->first << ' ' << it->second << ' ';
+>         }
+>         cout << '\n';
+>     }
+>     return 0;
+> }
+> ```
+> </details>
