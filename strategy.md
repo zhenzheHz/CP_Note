@@ -173,7 +173,7 @@ bool digit = isdigit('0'); // 判斷是否為數字（char 的 0~9），true
 
 以下是一題練習題可以練習上述函式的用法
 
-> ### [UVA 00245 - Uncompress](https://zerojudge.tw/ShowProblem?problemid=e569)
+> ### [UVA 245 - Uncompress](https://zerojudge.tw/ShowProblem?problemid=e569)
 >
 > <details>
 >   <summary> 參考解法 </summary>
@@ -370,7 +370,7 @@ integar operator/(integar A,integar B) {
 > ```
 > </details>
 
-> ### [UVA 00495 - Fibonacci Freeze](https://zerojudge.tw/ShowProblem?problemid=c121)
+> ### [UVA 495 - Fibonacci Freeze](https://zerojudge.tw/ShowProblem?problemid=c121)
 >
 > 這題只有大數加法
 >
@@ -420,7 +420,7 @@ integar operator/(integar A,integar B) {
 > ```
 > </details>
 
-> ### [UVA 00748 - Exponentiation](https://zerojudge.tw/ShowProblem?problemid=d394)
+> ### [UVA 748 - Exponentiation](https://zerojudge.tw/ShowProblem?problemid=d394)
 >
 > 大數乘法 + 一些字串處理
 >
@@ -681,6 +681,7 @@ integar operator/(integar A,integar B) {
 > }
 > ```
 > </details>
+
 
 
 
