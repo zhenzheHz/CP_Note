@@ -1014,7 +1014,7 @@ int gcd(int a,int b) {
 >
 > <details>
 >     <summary> 參考解法 </summary>
-> ```cpp
+> 
 > ```cpp
 > // Author : Zhenzhe
 > // Problem : https://cses.fi/problemset/task/1194/
@@ -1100,3 +1100,4 @@ int gcd(int a,int b) {
 > }
 > ```
 > </details>
+
