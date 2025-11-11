@@ -1464,3 +1464,12 @@ int gcd(int a,int b) {
 > }
 > ```
 > </details>
+
+---
+
+## 六、基礎動態規劃
+
+基本上要把經典題型寫到條件反射，可以練習 [CSES](https://cses.fi/problemset/list/) 或者 [Atcode DP Contest](https://atcoder.jp/contests/dp/tasks)
+
+如果還是會擔心的話可以寫寫看下面這些變化題目
+
