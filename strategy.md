@@ -1471,5 +1471,35 @@ int gcd(int a,int b) {
 
 基本上要把經典題型寫到條件反射，可以練習 [CSES](https://cses.fi/problemset/list/) 或者 [Atcode DP Contest](https://atcoder.jp/contests/dp/tasks)
 
+區賽的難度大概就是比 APCS 簡單一點，所以建議去看 `AP325` 講義
+
 如果還是會擔心的話可以寫寫看下面這些變化題目
+
+> ### [YTP 2025 高中組全國決賽第3題 - 過路費好貴](https://oj.ntucpc.org/problems/953)
+>
+> 考點：稍有變化的走樓梯問題
+> <details>
+>     <summary> 參考解法 </summary>
+> 
+> ```cpp
+> // Author : Zhenzhe
+> // Problem : https://oj.ntucpc.org/problems/953
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     int n;
+>     cin >> n;
+>     vector<int> cost(n+1), dp(n+1);
+>     for(int i = 1; i <= n; i++) cin >> cost[i];
+>     dp[0] = 0, dp[1] = cost[1];
+>     for(int i = 2; i <= n; i++) {
+>         dp[i] = min(dp[i-1],dp[i-2]) + cost[i];
+>     }
+>     return cout<<dp[n]-cost[n],0;
+> }
+> ```
+> </details>
+
 
