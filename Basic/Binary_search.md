@@ -175,7 +175,7 @@ else cout << "Not in!";
 > ```
 > </details>
 
-> ### [Zerojudge F607 - 切割費用](https://zerojudge.tw/ShowProblem?problemid=f607)
+> ### [APCS 2021.01 第三題 - 切割費用](https://zerojudge.tw/ShowProblem?problemid=f607)
 >
 > 難度：*APCS* $(3/10)$
 >
@@ -210,7 +210,7 @@ else cout << "Not in!";
 > </details>
 
 
-> ### [Zerojudge F581 - 圓環出口](https://zerojudge.tw/ShowProblem?problemid=f581)
+> ### [APCS 2020.07 第三題 - 圓環出口](https://zerojudge.tw/ShowProblem?problemid=f581)
 >
 > 難度：*APCS* $(4/10)$
 >
@@ -305,5 +305,6 @@ else cout << "Not in!";
 > }
 > ```
 > </details>
+
 
 
