@@ -108,7 +108,9 @@ int32_t main(){
 
 - 用二分搜尋找最小可行 $M$
 
-- 時間與空間複雜度分析：每次 check 需要 $O(n)$ 時間，$log(R-L) ≲ log(n·10^9) \leq 40$，因此整體複雜度為 $O(nlog(R-L))$
+- 時間與空間複雜度分析
+
+每次 check 需要 $O(n)$ 時間，$log(R-L) ≲ log(n·10^9) \leq 40$，因此整體複雜度為 $O(nlog(R-L))$
 
 ```cpp
 #include <bits/stdc++.h>
@@ -148,6 +150,7 @@ int32_t main(){
     cout << r;
 }
 ```
+
 
 
 
