@@ -450,7 +450,7 @@ int32_t main(){
 
 > ### [2018 北市賽 - 勇者冒險(Adventure)](https://tioj.ck.tp.edu.tw/problems/2180)
 >
-> 考點：BFS＋圖論
+> 考點：圖論＋二分搜
 >
 > <details>
 >   <summary> 參考解法 </summary>
@@ -507,6 +507,177 @@ int32_t main(){
 >         else l = mid;
 >     }
 >     return cout << r << '\n', 0;
+> }
+> ```
+> </details>
+
+> ### [2023 TOI 初選 第二題 - 裁員風暴(storm)](https://tioj.ck.tp.edu.tw/problems/2331)
+>
+> 考點：雙指針＋二分搜
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> 
+> ```cpp
+> // Problem : https://tioj.ck.tp.edu.tw/problems/2331
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> int check(vector<int> &w, int val) {
+>     int ans = 0;
+>     for(int l=0,r=w.size()-1;l < w.size()&&l<=r;l++) {
+>         while(w[l] + w[r] > val && l<=r) --r;
+>         ans += r-l+1;
+>     }
+>     return ans;
+> }
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     int n,k;
+>     cin >> n >> k;
+>     vector<int> w(n);
+>     for(int &i : w) cin >> i;
+>     sort(w.begin(),w.end());
+>     k = n*(n+1)/2 - k + 1;
+>     int l = 2*w.front()-1, r = 2*w.back()+1;
+>     while(l+1!=r) {
+>         int m = (l+r)>>1;
+>         if(check(w,m) < k) l = m;
+>         else r = m;
+>     }
+>     if(r & 1) cout << r << '\n' << 2;
+>     else cout << r/2 << '\n' << 1 << '\n';
+> }
+> ```
+> </details>
+
+> ### [2021 全國資訊學科能力競賽 Problem D. 汽車不再繞圈圈](https://tioj.ck.tp.edu.tw/problems/2254)
+>
+> 考點：圖論＋二分搜＋DAG＋構造
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> 
+> ```cpp
+> // Problem : https://tioj.ck.tp.edu.tw/problems/2254
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> static constexpr int MAXN = 1e5+5;
+> struct Edge {int u,v,w,id;};
+> int n,m;
+> vector<Edge> lst;
+> vector<int> g[MAXN], change;
+> bool check(int thr) {
+>     for(int i=1;i<=n;i++) g[i].clear();
+>     vector<int> degree(MAXN,0), pos(MAXN);
+>     for(auto &[u,v,w,id] : lst) {
+>         if(w > thr) {
+>             g[u].push_back(v);
+>             degree[v]++;
+>         }
+>     }
+>     queue<int> q;
+>     int cur_id = 0;
+>     for(int i=1;i<=n;i++) {
+>         if(degree[i] == 0) {
+>             q.push(i);
+>             pos[i] = cur_id++;
+>         }
+>     }
+>     while(!q.empty()) {
+>         auto cur = q.front();
+>         q.pop();
+>         for(auto nxt : g[cur]) {
+>             if(--degree[nxt] == 0) {
+>                 q.push(nxt);
+>                 pos[nxt] = cur_id++;
+>             }
+>         }
+>     }
+>     if(cur_id != n) return false;
+>     change.clear();
+>     for(auto &[u,v,w,id] : lst) {
+>         if(w <= thr && pos[u] > pos[v]) {
+>             change.push_back(id);
+>         }
+>     }
+>     return true;
+> }
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     cin >> n >> m;
+>     vector<int> c = {0};
+>     for(int i=0;i<m;i++) {
+>         int a,b,x;
+>         cin >> a >> b >> x;
+>         c.push_back(x);
+>         lst.push_back({a,b,x,i+1});
+>     }
+>     sort(c.begin(), c.end());
+>     c.resize(unique(c.begin(),c.end()) - c.begin());
+>     int l = -1, r = c.size();
+>     while(l+1 != r) {
+>         int mid = (l+r)>>1;
+>         if(check(c[mid])) r = mid;
+>         else l = mid;
+>     }
+>     check(c[r]);
+>     cout << c[r] << ' ' << change.size() << '\n';
+>     for(auto id : change) cout << id << '\n';
+>     return 0;
+> }
+> ```
+> </details>
+
+> ### [Codeforces Div.2 - Problem C.  Tree Cutting](https://codeforces.com/contest/1946/problem/C)
+>
+> 考點：貪心演算法＋樹論＋二分搜
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> void solve() {
+>     int n,k;
+>     cin >> n >> k;
+>     vector<int> g[n+1];
+>     for(int i=1;i<n;i++) {
+>         int a,b;
+>         cin >> a >> b;
+>         g[a].push_back(b);
+>         g[b].push_back(a);
+>     }
+>     function<bool(int)> check = [&](int x) {
+>         int total_cut = 0;
+>         function<int(int,int)> dfs = [&](int cur, int from) {
+>             int SIZE = 1;
+>             for(auto nxt : g[cur]) {
+>                 if(nxt == from) continue;
+>                 SIZE += dfs(nxt, cur);
+>             }
+>             if(SIZE >= x) total_cut += 1, SIZE = 0;
+>             return SIZE;
+>         };
+>         int root = dfs(1,-1);
+>         return total_cut > k || (total_cut == k && root >= x);
+>     };
+>     int l = -1, r = n+1;
+>     while(l+1!=r) {
+>         int m = (l+r)>>1;
+>         if(check(m)) l = m;
+>         else r = m;
+>     }
+>     return cout<<l<<'\n',void();
+> }
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     int t;
+>     cin >> t;
+>     while(t--) solve();
 > }
 > ```
 > </details>
