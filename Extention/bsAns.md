@@ -153,6 +153,360 @@ int32_t main(){
 
 
 
+---
+
+## 練習
+
+> ### [APCS 2017.03 第四題 - 基地台](https://zerojudge.tw/ShowProblem?problemid=c575)
+>
+> 考點：二分搜＋貪心演算法
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> using namespace std;
+> #define int long long 
+> int n,m;
+> int arr[5000003];
+> bool check(int r){
+>     int c = 1,end = arr[0]+r;
+>     for(int i = 0;i<n;i++){
+>         if(arr[i] <= end)continue;
+>         end = arr[i]+r;
+>         c++;
+>     }
+>     return c <= m;
+> }
+> signed main(){
+>     cin>>n >> m;
+>     for(int i = 0;i<n;i++){
+>         cin >> arr[i];
+>     }
+>     sort(arr,arr+n);
+>     int left = 0,right =1e9+1;
+>     while(left +1 != right){
+>         int mid = (right-left)/2 + left;
+>         if(check(mid)){
+>             right = mid;
+>         }else left = mid;
+>     }
+>     cout << right;
+> }
+> ```
+> </details>
+
+> ### [APCS 2022.01 第四題 - 牆上海報](https://zerojudge.tw/ShowProblem?problemid=h084)
+>
+> 考點：二分搜＋貪心演算法
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> int n,q;
+> vector<int> height,paste;
+> bool check(int h){
+>     int sum = 0,index = 0;
+>     for(int i=0;i<n;i++){
+>         if(index == q)return true;
+>         if(height[i] >= h)sum += 1;
+>         else sum = 0;
+>         // cerr << sum << '\n';
+>         if(sum >= paste[index]){
+>             index += 1;
+>             sum = 0;
+>         }
+>     }
+>     // cerr << index << '\n';
+>     return (index == q);
+> }
+> int32_t main(){
+>     ios_base::sync_with_stdio(0);
+>     cin.tie(0);
+>     cin>>n>>q;
+>     height.resize(n);paste.resize(q);
+>     for(int &hs : height)cin >> hs;
+>     for(int &i : paste)cin >> i;
+>     int l=0,r=1e9+1;
+>     while(l+1 != r){
+>         int m = (l+r)>>1;
+>         // cerr << "m = " << m << '\n';
+>         if(check(m))l = m;
+>         else r = m;
+>     }
+>     cout << l;
+> }
+> ```
+> </details>
+
+> ### [APCS 2022.10 第四題 - 蓋步道](https://zerojudge.tw/ShowProblem?problemid=j125)
+>
+> 考點：二分搜＋BFS＋最短路
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> using namespace std;
+> #define int long long
+> #define inside(i) (i>=0&&i<n)
+> int v[305][305],n,xdir[4] = {-1,1,0,0},ydir[4] = {0,0,-1,1};
+> int bfs(int h){
+>     queue<tuple<int,int,int>>q;
+>     int vis[n][n];
+>     for(int i = 0;i<n;i++)
+>         for(int j = 0;j<n;j++)
+>             vis[i][j] = 0;
+>     q.push({0,0,0});
+>     vis[0][0] = 1;
+>     while(!q.empty()){
+>         int i = get<0>(q.front());
+>         int j = get<1>(q.front());
+>         int step = get<2>(q.front());
+>         q.pop();
+>         if(i == n-1 and j == n-1)return step;
+>         //check route
+>         for(int c = 0;c<4;c++){
+>             int x = i + xdir[c];
+>             int y = j + ydir[c];
+>             if(inside(x) and inside(y)){
+>                 if(!vis[x][y] and abs(v[i][j] - v[x][y])<=h){
+>                     vis[x][y] = 1;
+>                     q.push({x,y,step+1});
+>                 }
+>             }
+>         }
+>     }
+>     return -1;
+> }
+> signed main(){
+>     ios_base::sync_with_stdio(0);
+>     cin.tie(0),cout.tie(0);
+>     cin>>n;
+>     for(int i = 0;i<n;i++)
+>         for(int j = 0;j<n;j++)
+>             cin>>v[i][j];
+>     int l = -1,r = 1e6+1;
+>     while(l+1 != r){
+>         int mid = (r-l)/2+l;
+>         if(bfs(mid) != -1)r = mid;
+>         else l = mid;
+>     }
+>     cout << r << '\n' << bfs(r);
+> }
+> ```
+> </details>
+
+> ### [CITRC Judge - 控分大師](https://judge.citrc.tw/contest/19/problem/8)
+>
+> 考點：貪心演算法＋二分搜
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> #define int int64_t
+> using namespace std;
+> int n,m,q;
+> vector<int>a;
+> bool check(int k){
+>     int TIMES = 0;
+>     for(int score : a){
+>         int x = (score+k)/q;
+>         if((score+k)%q != 0)x += 1;
+>         TIMES += (k>=x);
+>     }
+>     return (TIMES<=m);
+> }
+> int32_t main(){
+>     ios_base::sync_with_stdio(false);cin.tie(NULL);
+>     cin >> n >> m >> q;
+>     q += 1;
+>     for(int i = 0;i<n;i++){
+>         int x;cin>>x;
+>         a.push_back(x);
+>     }
+>     int l = -1,r = 1e9+1;
+>     while(l+1!=r){
+>         int m = (l+r)>>1;
+>         if(check(m))l = m;
+>         else r = m;
+>     }
+>     cout << l;
+> }
+> ```
+> </details>
+
+> ### [Codeforces Div.3 - Problem D.Jumping Through Segments](https://codeforces.com/contest/1907/problem/D)
+>
+> 考點：區間問題＋二分搜
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> #define int int64_t
+> #define FASTIO ios_base::sync_with_stdio(0);cin.tie(0)
+> #define all(x) x.begin(),x.end()
+> using namespace std;
+> template<typename... T>
+> void trace(T&&... args) { ((cerr << args << " "), ...);cerr<<'\n';}
+> void solve(){
+>     int n;cin>>n;
+>     vector<pair<int,int>> seg(n);
+>     for(auto &i : seg){
+>         cin >> i.first >> i.second;
+>     }
+>     int l = -1,r = 1e9+1;
+>     function<bool(int)>check=[&](int k)->bool{
+>         int L = 0,R = 0;
+>         for(auto &[l,r] : seg){
+>             L = max(l,L-k);
+>             R = min(r,R+k);
+>             if(R<L)return false;
+>             //if(debug)trace(L,R);
+>         }
+>         return true;
+>     };
+>     while(l+1!=r){
+>         int m = (l+r)>>1;
+>         if(check(m))r = m;
+>         else l = m;
+>     }
+>     cout << r << '\n';
+>     //trace(r,"-----");
+> }
+> int32_t main(){
+>     FASTIO;
+>     int test;
+>     cin >> test;
+>     while(test--){
+>         solve();
+>     }
+> }
+> ```
+> </details>
 
 
+> ### [Codeforces Div.4 - Problem F.Final Boss](https://codeforces.com/contest/1985/problem/F)
+>
+> 考點：貪心演算法＋二分搜
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> #define int int64_t
+> #define FASTIO ios_base::sync_with_stdio(0);cin.tie(0)
+> #define all(x) x.begin(),x.end()
+> using namespace std;
+> void solve(){
+>     int h,n;
+>     cin>>h>>n;
+>     int max_cd = 0;
+>     vector<pair<int,int>> skills(n);
+>     for(int i=0;i<n;i++)cin>>skills[i].first;
+>     for(int i=0;i<n;i++){
+>         cin>>skills[i].second;
+>         max_cd = max(max_cd,skills[i].second);
+>     }
+>     //check function
+>     auto defeat = [&](int turns){
+>         int total_damage = 0;
+>         for(auto [damage,cd] : skills){
+>             total_damage += ((turns-1)/cd + 1)*damage;
+>             if(total_damage>=h)return true;
+>         }
+>         return false;
+>     };
+>     //binary search
+>     int l=0,r=max_cd*(h+10);
+>     while(l+1 != r){
+>         int m = (l+r)>>1;
+>         if(defeat(m))r = m;
+>         else l = m;
+>     }
+>     cout << r << '\n';
+> }
+> int32_t main(){
+>     FASTIO;
+>     int test;
+>     cin >> test;
+>     while(test--){
+>         solve();
+>     }
+> }
+> ```
+> </details>
 
+> ### [2018 北市賽 - 勇者冒險(Adventure)](https://tioj.ck.tp.edu.tw/problems/2180)
+>
+> 考點：BFS＋圖論
+>
+> <details>
+>   <summary> 參考解法 </summary>
+> 
+> ```cpp
+> #include <bits/stdc++.h>
+> #define int int64_t
+> #define x first
+> #define y second
+> using namespace std;
+> static constexpr int MAXN = 1005;
+> const pair<int,int> dxy[] = {{0,1},{0,-1},{1,0},{-1,0}};
+> int R,C,N,sx,sy,ex,ey,grid[MAXN][MAXN];
+> bool vis[MAXN][MAXN];
+> bool inRange(int i,int j)  {
+>     return (i >=0 && i < R && j >= 0 && j < C);
+> }
+> bool check(int level) {
+>     memset(vis, 0, sizeof(vis));
+>     vis[sx][sy] = 1;
+>     queue<pair<int,int>> q;
+>     q.push({sx,sy});
+>     while(!q.empty()) {
+>         auto cur = q.front();
+>         q.pop();
+>         if(cur.x == ex && cur.y == ey) return 1;
+>         for(auto [dx,dy] : dxy) {
+>             int tx = cur.x + dx, ty = cur.y + dy;
+>             if(!inRange(tx,ty) || grid[tx][ty] == -1) continue;
+>             if(vis[tx][ty] || grid[tx][ty] > level) continue;
+>             q.push({tx,ty});
+>             vis[tx][ty] = 1;
+>         }
+>     }
+>     return 0;
+> }
+> signed main() {
+>     cin.tie(nullptr)->ios_base::sync_with_stdio(0);
+>     cin >> R >> C;
+>     cin >> sx >> sy >> ex >> ey;
+>     cin >> N;
+>     for(int i = 0; i < R; i++) for(int j = 0; j < C; j++) grid[i][j] = -1;
+>     grid[sx][sy] = grid[ex][ey] = 0;
+>     int l = -1, r = 0;
+>     for(int i = 0; i < N; i++) {
+>         int x,y,lv;
+>         cin >> x >> y >> lv;
+>         grid[x][y] = lv;
+>         r = max(r, lv+1);
+>     }
+>     while(l+1 != r) {
+>         int mid = (l+r) >> 1;
+>         if(check(mid)) r = mid;
+>         else l = mid;
+>     }
+>     return cout << r << '\n', 0;
+> }
+> ```
+> </details>
